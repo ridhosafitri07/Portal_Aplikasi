@@ -222,7 +222,7 @@
                 </span>
             </div>
 
-            <a href="<?= base_url('auth/forgot') ?>" class="forgot">Forgot Password?</a>
+            <a href="<?= base_url('forgot-password') ?>" class="forgot">Forgot Password?</a>
 
             <button type="submit" class="btn-login">Login</button>
         </form>

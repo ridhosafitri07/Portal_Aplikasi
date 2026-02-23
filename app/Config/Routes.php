@@ -13,6 +13,15 @@ $routes->post('auth/login', 'AuthController::login');
 $routes->get('auth/logout', 'AuthController::logout');
 $routes->get('auth/forgot', 'AuthController::forgot');
 
+// ── Forgot Password (publik) ──────────────────────────────────────
+$routes->get('forgot-password',          'ForgotPasswordController::index');
+$routes->post('forgot-password/api/send-otp',  'ForgotPasswordController::sendOTP');
+$routes->get('forgot-password/verify',   'ForgotPasswordController::verifyOTP');
+$routes->post('forgot-password/verify',  'ForgotPasswordController::verifyOTP');
+$routes->get('forgot-password/reset',    'ForgotPasswordController::resetPassword');
+$routes->post('forgot-password/reset',   'ForgotPasswordController::resetPassword');
+$routes->get('forgot-password/success',  'ForgotPasswordController::success');
+
 // ── User area (harus login + role user) ──────────────────────────
 $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
     $routes->get('dashboard',         'UserController::dashboard');
@@ -22,8 +31,8 @@ $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
 });
 
 // ── Admin area (harus login + role admin) ────────────────────────
-$routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
-    $routes->get('dashboard', 'AdminController::dashboard');
+// $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
+// // $routes->get('dashboard', 'AdminController::dashboard');
 
     // Placeholder – aktifkan saat modul siap
     // $routes->get('users',           'Admin\UserManageController::index');
@@ -35,4 +44,4 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
 
     // $routes->get('apps',            'Admin\AppsController::index');
     // $routes->get('access',          'Admin\AccessController::index');
-});
+// });
