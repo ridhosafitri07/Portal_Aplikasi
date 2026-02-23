@@ -4,7 +4,7 @@
 <?= view('admin/layout/sidebar') ?>
 
 <div class="container-fluid">
-    <h3><?= $title ?></h3>
+     <h3><?= $title ?></h3>
     <hr>
 
 

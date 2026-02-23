@@ -21,38 +21,19 @@ class UserModel extends Model
         'otp',
         'create_at',
         'update_at',
-        'id_group',
+        'id_group'
     ];
 
-    // Pakai auto timestamp bawaan CodeIgniter
     protected $useTimestamps = true;
     protected $createdField  = 'create_at';
     protected $updatedField  = 'update_at';
 
-    /**
-     * Cari user berdasarkan username.
-     */
     public function findByUsername(string $username): ?array
     {
         return $this->where('username', $username)->first();
     }
 
-    /**
-     * Ambil semua user beserta nama group (JOIN).
-     */
-    public function getAllWithGroup(): array
-    {
-        return $this->db->table('user u')
-            ->select('u.*, g.nama_group')
-            ->join('group g', 'g.id_group = u.id_group', 'left')
-            ->orderBy('u.id_user', 'DESC')
-            ->get()
-            ->getResultArray();
-    }
-
-    /**
-     * User terbaru (limit).
-     */
+    // Ambil user terbaru (untuk dashboard, lengkap dengan group)
     public function getRecent(int $limit = 10): array
     {
         return $this->db->table('user u')

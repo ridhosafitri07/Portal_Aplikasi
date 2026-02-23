@@ -125,8 +125,11 @@ _modules/*
 /phpunit*.xml
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /vendor/
 /.env
 /node_modules/
+=======
+>>>>>>> origin/fitri
 =======
 >>>>>>> origin/fitri

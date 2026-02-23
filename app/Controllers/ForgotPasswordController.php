@@ -197,31 +197,18 @@ class ForgotPasswordController extends BaseController
     public function getBotStatus()
     {
         try {
-            $ch = curl_init();
-            curl_setopt_array($ch, [
-                CURLOPT_URL            => 'http://localhost:3000/status',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => 5,
-                CURLOPT_CONNECTTIMEOUT => 3,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
+            $client = \Config\Services::curlrequest();
+            
+            $response = $client->get('http://localhost:3000/status', [
+                'timeout'           => 5,
+                'connect_timeout'   => 3,
+                'verify'            => false,
             ]);
             
-            $response = curl_exec($ch);
-            $curlError = curl_error($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            
-            if ($curlError) {
-                return $this->response->setJSON([
-                    'botReady' => false,
-                    'status'  => 'Error',
-                    'message' => 'Cannot connect: ' . $curlError
-                ]);
-            }
+            $httpCode = $response->getStatusCode();
             
             if ($httpCode === 200) {
-                $result = json_decode($response, true);
+                $result = json_decode($response->getBody(), true);
                 if ($result === null) {
                     return $this->response->setJSON([
                         'botReady' => false,
@@ -252,43 +239,24 @@ class ForgotPasswordController extends BaseController
     private function sendOTPWhatsApp($phoneNumber, $otpCode)
     {
         try {
-            $ch = curl_init();
+            $client = \Config\Services::curlrequest();
             
-            $postData = json_encode([
-                'phoneNumber' => $phoneNumber,
-                'otpCode'     => $otpCode,
+            $response = $client->post('http://localhost:3000/send-otp', [
+                'json' => [
+                    'phoneNumber' => $phoneNumber,
+                    'otpCode'     => $otpCode,
+                ],
+                'timeout'           => 10,
+                'connect_timeout'   => 5,
+                'verify'            => false,
             ]);
 
-            curl_setopt_array($ch, [
-                CURLOPT_URL            => 'http://localhost:3000/send-otp',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => 10,
-                CURLOPT_CONNECTTIMEOUT => 5,
-                CURLOPT_POST           => true,
-                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
-                CURLOPT_POSTFIELDS     => $postData,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
-            ]);
-
-            $response = curl_exec($ch);
-            $curlError = curl_error($ch);
-            $curlErrno = curl_errno($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            // Check curl errors
-            if ($curlError || $curlErrno !== 0) {
-                error_log('WhatsApp Bot CURL Error: ' . $curlError . ' (errno: ' . $curlErrno . ')');
-                return [
-                    'success' => false,
-                    'error'   => 'Network error: ' . ($curlError ?: 'CURL Error ' . $curlErrno)
-                ];
-            }
+            $httpCode = $response->getStatusCode();
 
             // Check HTTP status code
             if ($httpCode !== 200) {
-                error_log('WhatsApp Bot HTTP Error: ' . $httpCode . ' Response: ' . substr($response, 0, 200));
+                $responseBody = substr($response->getBody(), 0, 200);
+                error_log('WhatsApp Bot HTTP Error: ' . $httpCode . ' Response: ' . $responseBody);
                 return [
                     'success' => false,
                     'error'   => 'Bot tidak merespons (HTTP ' . $httpCode . ')'
@@ -296,9 +264,9 @@ class ForgotPasswordController extends BaseController
             }
 
             // Try to parse JSON
-            $result = json_decode($response, true);
+            $result = json_decode($response->getBody(), true);
             if ($result === null) {
-                error_log('WhatsApp Bot JSON Parse Error. Response: ' . substr($response, 0, 200));
+                error_log('WhatsApp Bot JSON Parse Error. Response: ' . substr($response->getBody(), 0, 200));
                 return [
                     'success' => false,
                     'error'   => 'Invalid response format from bot'
