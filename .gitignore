@@ -124,6 +124,9 @@ _modules/*
 /results/
 /phpunit*.xml
 
+<<<<<<< HEAD
 /vendor/
 /.env
 /node_modules/
+=======
+>>>>>>> origin/fitri

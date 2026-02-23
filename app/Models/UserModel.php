@@ -24,12 +24,13 @@ class UserModel extends Model
         'id_group',
     ];
 
-    protected $useTimestamps = false; // sudah ada create_at & update_at manual
-
-    // ── Query helpers ──────────────────────────────────────────
+    // Pakai auto timestamp bawaan CodeIgniter
+    protected $useTimestamps = true;
+    protected $createdField  = 'create_at';
+    protected $updatedField  = 'update_at';
 
     /**
-     * Cari user berdasarkan username, return satu row.
+     * Cari user berdasarkan username.
      */
     public function findByUsername(string $username): ?array
     {
