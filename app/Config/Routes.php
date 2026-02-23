@@ -51,6 +51,11 @@ $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
 // ── Admin area (harus login + role admin) ────────────────────────
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
       $routes->get('dashboard', 'Admin\AdminController::index');
+
+       // Profile Admin
+    $routes->get('profile',           'Admin\AdminController::profile');
+    $routes->post('profile/update',   'Admin\AdminController::updateProfile');
+    $routes->post('profile/password', 'Admin\AdminController::updatePassword');
     // Placeholder – aktifkan saat modul siap
     // $routes->get('users',           'Admin\UserManageController::index');
     // $routes->get('users/create',    'Admin\UserManageController::create');

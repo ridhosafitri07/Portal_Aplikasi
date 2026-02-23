@@ -29,21 +29,44 @@ class GroupController extends BaseController
     // Fungsi untuk menyimpan group baru
     public function store()
     {
+          // Aturan validasi
+    if (!$this->validate([
+        'nama_group' => 'required|min_length[3]|max_length[150]',
+    ])) {
+        
+        // Kalau gagal validasi, kembali ke form dengan pesan error
+        return redirect()->back()
+            ->withInput()
+            ->with('errors', $this->validator->getErrors());
+    }
+
+    
         $this->groupModel->insert([
             'nama_group' => $this->request->getPost('nama_group')
         ]);
 
-        return redirect()->to('/admin/groups');
+         return redirect()->to('/admin/groups')
+        ->with('success', 'Group berhasil ditambahkan!');
     }
 
     // Fungsi untuk update group
     public function update($id)
     {
+          if (!$this->validate([
+        'nama_group' => 'required|min_length[3]|max_length[150]',
+    ])) {
+        return redirect()->back()
+            ->withInput()
+            ->with('errors', $this->validator->getErrors());
+    }
+
+
         $this->groupModel->update($id, [
             'nama_group' => $this->request->getPost('nama_group')
         ]);
 
-        return redirect()->to('/admin/groups');
+        return redirect()->to('/admin/groups')
+        ->with('success', 'Group berhasil diupdate!');
     }
 
     // Fungsi untuk hapus group

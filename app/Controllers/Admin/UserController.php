@@ -37,6 +37,20 @@ class UserController extends BaseController
     // Simpan user baru
     public function store()
     {
+         // Aturan validasi
+    if (!$this->validate([
+        'nama_user' => 'required|min_length[3]|max_length[150]',
+        'username'  => 'required|min_length[3]|max_length[100]|is_unique[user.username]',
+        'password'  => 'required|min_length[6]',
+        'id_group'  => 'required',
+    ])) {
+        // Kalau gagal validasi, kembali ke form dengan pesan error
+        return redirect()->back()
+            ->withInput()
+            ->with('errors', $this->validator->getErrors());
+    }
+
+
         $this->userModel->insert([
             'nama_user'     => $this->request->getPost('nama_user'),
             'username'      => $this->request->getPost('username'),
@@ -45,14 +59,26 @@ class UserController extends BaseController
             'hp_'           => $this->request->getPost('hp_'),
             'id_group'      => $this->request->getPost('id_group'),
             'create_at'     => date('Y-m-d H:i:s'), // waktu sekarang
+            'role'          => 'user'
         ]);
 
-        return redirect()->to('/admin/users');
+         return redirect()->to('/admin/users')
+        ->with('success', 'User berhasil ditambahkan!');    
     }
 
     // Update user
     public function update($id)
     {
+         if (!$this->validate([
+        'nama_user' => 'required|min_length[3]|max_length[150]',
+        'username'  => "required|min_length[3]|is_unique[user.username,id_user,{$id}]",
+    ])) {
+        return redirect()->back()
+            ->withInput()
+            ->with('errors', $this->validator->getErrors());
+    }
+
+
         $dataUpdate = [
             'nama_user' => $this->request->getPost('nama_user'),
             'username'  => $this->request->getPost('username'),
@@ -61,15 +87,21 @@ class UserController extends BaseController
             'update_at' => date('Y-m-d H:i:s'), // waktu update
         ];
 
-        // Password hanya diupdate kalau diisi, kalau kosong dibiarkan
-        $newPassword = $this->request->getPost('password');
+
+            $newPassword = $this->request->getPost('password');
         if (!empty($newPassword)) {
+            if (strlen($newPassword) < 6) {
+                return redirect()->back()
+                    ->with('errors', ['password' => 'Password minimal 6 karakter!']);
+            }
             $dataUpdate['password_hash'] = password_hash($newPassword, PASSWORD_BCRYPT);
         }
 
         $this->userModel->update($id, $dataUpdate);
 
-        return redirect()->to('/admin/users');
+
+            return redirect()->to('/admin/users')
+                ->with('success', 'User berhasil diupdate!');
     }
 
     // Hapus user

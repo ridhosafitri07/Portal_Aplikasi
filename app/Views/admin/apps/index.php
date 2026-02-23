@@ -5,6 +5,26 @@
     <h3><?= $title ?></h3>
     <hr>
 
+    <!-- Notifikasi sukses -->
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible fade show">
+                <?= session()->getFlashdata('success') ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
+
+        <!-- Notifikasi error validasi -->
+        <?php if (session()->getFlashdata('errors')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <ul class="mb-0">
+                    <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                        <li><?= $error ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
+
     <!-- Form Tambah Apps -->
     <div class="card mb-4">
         <div class="card-header">Tambah Aplikasi Baru</div>
