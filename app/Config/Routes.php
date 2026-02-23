@@ -18,16 +18,21 @@ $routes->post('/admin/apps/store', 'Admin\AppsController::store');
 $routes->post('/admin/apps/update/(:num)', 'Admin\AppsController::update/$1');
 $routes->get('/admin/apps/delete/(:num)', 'Admin\AppsController::delete/$1');
 
+
 // Route untuk Admin - User
 $routes->get('/admin/users', 'Admin\UserController::index');
 $routes->post('/admin/users/store', 'Admin\UserController::store');
 $routes->post('/admin/users/update/(:num)', 'Admin\UserController::update/$1');
 $routes->get('/admin/users/delete/(:num)', 'Admin\UserController::delete/$1');
 
+
 // Route untuk Admin - Access
 $routes->get('/admin/access', 'Admin\AccessController::index');
 $routes->post('/admin/access/store', 'Admin\AccessController::store');
 $routes->get('/admin/access/delete/(:num)', 'Admin\AccessController::delete/$1');
+
+
+
 // ── Auth (publik) ─────────────────────────────────────────────────
 $routes->get('/',           'AuthController::index');
 $routes->get('auth',        'AuthController::index');
@@ -45,8 +50,7 @@ $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
 
 // ── Admin area (harus login + role admin) ────────────────────────
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
-    $routes->get('dashboard', 'AdminController::dashboard');
-
+      $routes->get('dashboard', 'Admin\AdminController::index');
     // Placeholder – aktifkan saat modul siap
     // $routes->get('users',           'Admin\UserManageController::index');
     // $routes->get('users/create',    'Admin\UserManageController::create');

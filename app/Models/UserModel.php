@@ -17,10 +17,24 @@ class UserModel extends Model
         'otp',
         'create_at',
         'update_at',
-        'id_group'
+        'id_group',
+        'role'
     ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'create_at';
     protected $updatedField  = 'update_at';
+
+
+
+    public function findByUsername($username)
+    {
+        return $this->where('username', $username)->first();
+    }
+
+        // Ambil user terbaru (untuk dashboard)
+    public function getRecent($limit = 5)
+    {
+        return $this->orderBy('create_at', 'DESC')->findAll($limit);
+    }
 }
