@@ -39,10 +39,33 @@ class UserController extends BaseController
     {
          // Aturan validasi
     if (!$this->validate([
-        'nama_user' => 'required|min_length[3]|max_length[150]',
-        'username'  => 'required|min_length[3]|max_length[100]|is_unique[user.username]',
-        'password'  => 'required|min_length[6]',
-        'id_group'  => 'required',
+        'nama_user' => [
+            'rules' => 'required|min_length[3]|max_length[150]',
+            'errors' => [
+                'required' => 'Nama user wajib diisi!',
+                'min_length' => 'Nama minimal 3 karakter!'
+            ]
+        ],
+        'username'  => [
+            'rules' => 'required|min_length[3]|max_length[100]|is_unique[user.username]',
+            'errors' => [
+                'required' => 'Username wajib diisi!',
+                'is_unique' => 'Username ini sudah terdaftar!'
+            ]
+        ],
+        'password'  => [
+            'rules' => 'required|min_length[6]',
+            'errors' => [
+                'required' => 'Password wajib diisi!',
+                'min_length' => 'Password minimal 6 karakter!'
+            ]
+        ],
+        'id_group'  => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Grup wajib dipilih!'
+            ]
+        ],
     ])) {
         // Kalau gagal validasi, kembali ke form dengan pesan error
         return redirect()->back()

@@ -39,23 +39,35 @@ class AccessController extends BaseController
 
     public function store()
     {
-        // Cek dulu apakah kombinasi group+app sudah ada
-        $exists = $this->accessModel
-                    ->where('id_group', $this->request->getPost('id_group'))
-                    ->where('id_apps', $this->request->getPost('id_apps'))
-                    ->first();
+        $id_group = $this->request->getPost('id_group');
+        $id_apps  = $this->request->getPost('id_apps'); // Ini bakal jadi array
 
-        if ($exists) {
-            // Kalau sudah ada, jangan simpan dobel
-            return redirect()->to('/admin/access')->with('error', 'Akses ini sudah ada!');
+        if (!$id_group || empty($id_apps)) {
+            return redirect()->to('/admin/access')->with('error', 'Grup atau Aplikasi belum dipilih!');
         }
 
-        $this->accessModel->insert([
-            'id_group' => $this->request->getPost('id_group'),
-            'id_apps'  => $this->request->getPost('id_apps')
-        ]);
+        $countAdded = 0;
+        foreach ($id_apps as $id_app) {
+            // Cek dulu apakah kombinasi group+app sudah ada
+            $exists = $this->accessModel
+                        ->where('id_group', $id_group)
+                        ->where('id_apps', $id_app)
+                        ->first();
 
-        return redirect()->to('/admin/access')->with('success', 'Akses berhasil ditambahkan!');
+            if (!$exists) {
+                $this->accessModel->insert([
+                    'id_group' => $id_group,
+                    'id_apps'  => $id_app
+                ]);
+                $countAdded++;
+            }
+        }
+
+        if ($countAdded > 0) {
+            return redirect()->to('/admin/access')->with('success', "$countAdded akses baru berhasil ditambahkan!");
+        } else {
+            return redirect()->to('/admin/access')->with('error', 'Semua aplikasi yang dipilih sudah memiliki akses untuk grup ini.');
+        }
     }
 
     public function delete($id)
