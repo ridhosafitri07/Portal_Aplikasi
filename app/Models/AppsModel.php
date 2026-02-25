@@ -15,4 +15,17 @@ class AppsModel extends Model
     ];
 
     protected $useTimestamps = false; // tabel apps_ tidak punya created_at/updated_at
+
+    /**
+     * Ambil apps yang dapat diakses oleh grup tertentu
+     */
+    public function getAppsByGroup(int $idGroup): array
+    {
+        return $this->db->table('apps_ a')
+            ->select('a.id_app, a.nama, a.url_app')
+            ->join('accss_users au', 'au.id_app = a.id_app', 'inner')
+            ->where('au.id_group', $idGroup)
+            ->get()
+            ->getResultArray();
+    }
 }
