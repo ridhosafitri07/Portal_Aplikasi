@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lupa Password</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #EBF5FB; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,100,200,0.1); padding: 40px 36px; width: 100%; max-width: 420px; }
+    .logo { text-align: center; margin-bottom: 24px; }
+    .logo svg { width: 56px; height: 56px; }
+    h2 { text-align: center; color: #1565C0; font-size: 22px; margin-bottom: 8px; }
+    p.subtitle { text-align: center; color: #607D8B; font-size: 13px; margin-bottom: 28px; }
+    label { font-size: 13px; color: #37474F; font-weight: 600; display: block; margin-bottom: 6px; }
+    input { width: 100%; padding: 11px 14px; border: 1.5px solid #BBDEFB; border-radius: 8px; font-size: 14px; color: #263238; outline: none; transition: border 0.2s; }
+    input:focus { border-color: #1976D2; }
+    .field { margin-bottom: 18px; }
+    button { width: 100%; padding: 12px; background: #1976D2; color: #fff; font-size: 15px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-top: 4px; }
+    button:hover { background: #1565C0; }
+    button:disabled { background: #90CAF9; cursor: not-allowed; }
+    .msg { margin-top: 14px; font-size: 13px; text-align: center; color: #D32F2F; min-height: 18px; }
+    .back-login { margin-top: 0px; text-align: center; }
+    .back-login a { font-size: 13px; color: #1976D2; text-decoration: none; transition: all 0.2s; font-weight: 500; }
+    .back-login a:hover { color: #1565C0; text-decoration: underline; }
+    .steps { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; }
+    .step { width: 28px; height: 6px; border-radius: 3px; background: #BBDEFB; }
+    .step.active { background: #1976D2; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="28" fill="#E3F2FD"/>
+      <path d="M28 16a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 18c-8 0-12 4-12 6v1h24v-1c0-2-4-6-12-6z" fill="#1976D2"/>
+    </svg>
+  </div>
+  <div class="steps">
+    <div class="step active"></div>
+    <div class="step"></div>
+    <div class="step"></div>
+    <div class="step"></div>
+  </div>
+  <h2>Lupa Password</h2>
+  <p class="subtitle">Masukkan username dan nomor HP yang terdaftar. Kami akan mengirim kode OTP via WhatsApp.</p>
+  <div class="field">
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="Masukkan username" autocomplete="off"/>
+  </div>
+  <div class="field">
+    <label for="hp">Nomor HP (WhatsApp)</label>
+    <input type="text" id="hp" placeholder="Contoh: 08123456789" autocomplete="off"/>
+  </div>
+  <button id="btnSend" onclick="requestOTP()">Kirim Kode OTP</button>
+  <p class="msg" id="msg"></p>
+  <div class="back-login">
+    <a href="http://localhost:8080/auth">Kembali ke Halaman Login</a>
+  </div>
+</div>
+<script>
+  async function requestOTP() {
+    const username = document.getElementById('username').value.trim();
+    const hp = document.getElementById('hp').value.trim();
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('btnSend');
+
+    msg.style.color = '#D32F2F';
+    if (!username || !hp) { msg.textContent = 'Semua field wajib diisi.'; return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+    msg.textContent = '';
+
+    try {
+      const res = await fetch('/api/auth/request-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, hp })
+      });
+      const data = await res.json();
+      if (data.success) {
+        msg.style.color = '#2E7D32';
+        msg.textContent = '✅ OTP terkirim! Mengalihkan...';
+        sessionStorage.setItem('fp_hp', hp);
+        setTimeout(() => window.location.href = 'verify.html', 1200);
+      } else {
+        msg.textContent = data.message;
+        btn.disabled = false;
+        btn.textContent = 'Kirim Kode OTP';
+      }
+    } catch {
+      msg.textContent = 'Gagal terhubung ke server.';
+      btn.disabled = false;
+      btn.textContent = 'Kirim Kode OTP';
+    }
+  }
+</script>
+</body>
+</html>
