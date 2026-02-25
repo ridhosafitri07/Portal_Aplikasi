@@ -204,7 +204,7 @@
             </div>
         <?php endif; ?>
 
-        <form action="<?= base_url('auth/login') ?>" method="POST">
+        <form action="<?= base_url('/') ?>" method="POST">
             <?= csrf_field() ?>
 
             <div class="form-floating-custom">
@@ -222,7 +222,9 @@
                 </span>
             </div>
 
-            <a href="<?= base_url('auth/forgot') ?>" class="forgot">Forgot Password?</a>
+            <a href="<?= base_url(); ?>" onclick="window.location.href='http://localhost:3000'; return false;" class="forgot">
+                Forgot Password?
+            </a>
 
             <button type="submit" class="btn-login">Login</button>
         </form>

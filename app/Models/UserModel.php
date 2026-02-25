@@ -6,35 +6,42 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $table = 'user';
-    protected $primaryKey = 'id_user';
+    protected $table            = 'user';
+    protected $primaryKey       = 'id_user';
+    protected $useAutoIncrement = true;
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = false;
 
     protected $allowedFields = [
         'nama_user',
         'username',
         'password_hash',
+        'role',
         'hp_',
         'otp',
         'create_at',
         'update_at',
-        'id_group',
-        'role'
+        'id_group'
     ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'create_at';
     protected $updatedField  = 'update_at';
 
-
-
-    public function findByUsername($username)
+    public function findByUsername(string $username): ?array
     {
         return $this->where('username', $username)->first();
     }
 
-        // Ambil user terbaru (untuk dashboard)
-    public function getRecent($limit = 5)
+    // Ambil user terbaru (untuk dashboard, lengkap dengan group)
+    public function getRecent(int $limit = 10): array
     {
-        return $this->orderBy('create_at', 'DESC')->findAll($limit);
+        return $this->db->table('user u')
+            ->select('u.id_user, u.nama_user, u.username, u.role, g.nama_group')
+            ->join('group g', 'g.id_group = u.id_group', 'left')
+            ->orderBy('u.create_at', 'DESC')
+            ->limit($limit)
+            ->get()
+            ->getResultArray();
     }
 }
