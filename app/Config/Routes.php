@@ -34,25 +34,31 @@ $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
 // ── Admin area (harus login + role admin) ────────────────────────
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard',                   'Admin\AdminController::index');
-    
+
+    // Profile Admin
+    $routes->get('profile',                     'Admin\AdminController::profile');
+    $routes->post('profile/update',             'Admin\AdminController::updateProfile');
+    $routes->post('profile/password',           'Admin\AdminController::updatePassword');
+
     // Route untuk Admin - Group
     $routes->get('groups',                      'Admin\GroupController::index');
     $routes->post('groups/store',               'Admin\GroupController::store');
     $routes->post('groups/update/(:num)',       'Admin\GroupController::update/$1');
     $routes->get('groups/delete/(:num)',        'Admin\GroupController::delete/$1');
     
+
     // Route untuk Admin - Apps
     $routes->get('apps',                        'Admin\AppsController::index');
     $routes->post('apps/store',                 'Admin\AppsController::store');
     $routes->post('apps/update/(:num)',         'Admin\AppsController::update/$1');
     $routes->get('apps/delete/(:num)',          'Admin\AppsController::delete/$1');
-    
+
     // Route untuk Admin - User
     $routes->get('users',                       'Admin\UserController::index');
     $routes->post('users/store',                'Admin\UserController::store');
     $routes->post('users/update/(:num)',        'Admin\UserController::update/$1');
     $routes->get('users/delete/(:num)',         'Admin\UserController::delete/$1');
-    
+
     // Route untuk Admin - Access
     $routes->get('access',                      'Admin\AccessController::index');
     $routes->post('access/store',               'Admin\AccessController::store');
