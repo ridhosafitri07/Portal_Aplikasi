@@ -15,9 +15,17 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 const SESSION_PATH = './.wwebjs_auth/session-otp-bot';
 const sessionExists = fs.existsSync(SESSION_PATH);
 
-const waClient = new Client({
-  authStrategy: new LocalAuth({ clientId: 'otp-bot', dataPath: './.wwebjs_auth' }),
-  puppeteer: { args: ['--no-sandbox'] }
+const client = new Client({
+    puppeteer: {
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu'
+        ],
+        timeout: 60000
+    }
 });
 
 let waReady = false;
@@ -29,23 +37,21 @@ if (sessionExists) {
   console.log('📞 Session sudah ada, skipping QR code...\n');
   isFirstInit = false;
 }
-
-waClient.on('qr', (qr) => {
-  if (!qrShownOnce) {  // Hanya tampilkan QR sekali saja
+client.on('qr', (qr) => {
+  if (!qrShownOnce) {
     console.log('\n📱 QR Code baru! Scan dengan WhatsApp Admin:\n');
     qrcode.generate(qr, { small: true });
     qrShownOnce = true;
   }
 });
 
-waClient.on('authenticated', () => {
+client.on('authenticated', () => {
   console.log('🔐 WhatsApp berhasil diautentikasi.');
 });
 
-waClient.on('ready', () => {
+client.on('ready', () => {
   waReady = true;
-  
-  // Conditional message based on whether it's first init or reconnect
+
   if (isFirstInit) {
     console.log('\n🔄 Menyingkronkan WhatsApp...');
     setTimeout(() => {
@@ -57,16 +63,18 @@ waClient.on('ready', () => {
   }
 });
 
-waClient.on('disconnected', () => {
+client.on('disconnected', () => {
   waReady = false;
-  qrShownOnce = false;  // Reset QR flag saat disconnect
-  console.log('\n⚠️  WhatsApp Bot disconnected. Mencoba reconnect...\n');
+  qrShownOnce = false;
+  console.log('\n⚠️ WhatsApp Bot disconnected. Mencoba reconnect...\n');
 });
 
-waClient.initialize();
+client.initialize();
+
+app.locals.waClient = client;
 
 // Export waClient & waReady ke routes
-app.locals.waClient = waClient;
+app.locals.waClient = client;
 app.locals.getWaReady = () => waReady;
 
 // ─── Routes ────────────────────────────────────────────────────

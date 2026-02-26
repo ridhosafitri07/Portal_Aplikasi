@@ -23,7 +23,7 @@ class AppsModel extends Model
     {
         return $this->db->table('apps_ a')
             ->select('a.id_app, a.nama, a.url_app')
-            ->join('accss_users au', 'au.id_app = a.id_app', 'inner')
+            ->join('accss_users au', 'au.id_apps = a.id_app', 'inner')
             ->where('au.id_group', $idGroup)
             ->get()
             ->getResultArray();

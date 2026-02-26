@@ -45,6 +45,7 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->post('groups/store',               'Admin\GroupController::store');
     $routes->post('groups/update/(:num)',       'Admin\GroupController::update/$1');
     $routes->get('groups/delete/(:num)',        'Admin\GroupController::delete/$1');
+    
 
     // Route untuk Admin - Apps
     $routes->get('apps',                        'Admin\AppsController::index');
