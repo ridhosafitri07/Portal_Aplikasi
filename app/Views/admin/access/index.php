@@ -89,7 +89,6 @@
                         <i class="bi bi-plus-circle-dotted me-2"></i>Tambah Akses
                     </h6>
                 </div>
-                </div>
                 <div class="card-body bg-light-subtle">
                     <form action="<?= base_url('admin/access/store') ?>" method="POST">
                         <?= csrf_field() ?>

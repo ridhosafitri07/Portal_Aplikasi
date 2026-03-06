@@ -83,7 +83,6 @@
                         <i class="bi bi-person-plus-fill me-2"></i>Registrasi User Baru
                     </h6>
                 </div>
-                </div>
                 <div class="card-body bg-light-subtle">
                     <form action="<?= base_url('admin/users/store') ?>" method="POST">
                         <?= csrf_field() ?>

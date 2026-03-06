@@ -82,7 +82,6 @@
                         <i class="bi bi-plus-square-fill me-2"></i>Tambah Aplikasi
                     </h6>
                 </div>
-                </div>
                 <div class="card-body bg-light-subtle">
                     <form action="<?= base_url('admin/apps/store') ?>" method="POST">
                         <?= csrf_field() ?>

@@ -69,7 +69,6 @@
                         <i class="bi bi-shield-plus me-2"></i>Tambah Grup Baru
                     </h6>
                 </div>
-                </div>
                 <div class="card-body bg-light-subtle">
                     <form action="<?= base_url('admin/groups/store') ?>" method="POST">
                         <?= csrf_field() ?>
