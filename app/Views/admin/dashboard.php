@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="d-grid mt-2">
-                        <a href="/admin/users" class="btn btn-light btn-sm rounded-pill fw-semibold text-primary py-2">
+                        <a href="<?= base_url('admin/users') ?>" class="btn btn-light btn-sm rounded-pill fw-semibold text-primary py-2">
                             Kelola User <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="d-grid mt-2">
-                        <a href="/admin/apps" class="btn btn-light btn-sm rounded-pill fw-semibold text-info py-2">
+                        <a href="<?= base_url('admin/apps') ?>" class="btn btn-light btn-sm rounded-pill fw-semibold text-info py-2">
                             Cek Aplikasi <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="d-grid mt-2">
-                        <a href="/admin/groups" class="btn btn-light btn-sm rounded-pill fw-semibold text-success py-2">
+                        <a href="<?= base_url('admin/groups') ?>" class="btn btn-light btn-sm rounded-pill fw-semibold text-success py-2">
                             Lihat Grup <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div class="d-grid mt-2">
-                        <a href="/admin/access" class="btn btn-light btn-sm rounded-pill fw-semibold text-danger py-2">
+                        <a href="<?= base_url('admin/access') ?>" class="btn btn-light btn-sm rounded-pill fw-semibold text-danger py-2">
                             Atur Akses <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -127,7 +127,7 @@
                 <div class="card-body px-4 pb-4 pt-0">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <a href="/admin/users" class="text-decoration-none action-card">
+                            <a href="<?= base_url('admin/users') ?>" class="text-decoration-none action-card">
                                 <div class="p-3 border rounded-3 d-flex align-items-center background-hover transition-all h-100 bg-white shadow-sm">
                                     <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
                                         <i class="bi bi-person-gear text-primary fs-4"></i>
@@ -140,7 +140,7 @@
                             </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="/admin/apps" class="text-decoration-none action-card">
+                            <a href="<?= base_url('admin/apps') ?>" class="text-decoration-none action-card">
                                 <div class="p-3 border rounded-3 d-flex align-items-center background-hover transition-all h-100 bg-white shadow-sm">
                                     <div class="bg-info bg-opacity-10 p-3 rounded-3 me-3">
                                         <i class="bi bi-window-stack text-info fs-4"></i>
@@ -153,7 +153,7 @@
                             </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="/admin/access" class="text-decoration-none action-card">
+                            <a href="<?= base_url('admin/access') ?>" class="text-decoration-none action-card">
                                 <div class="p-3 border rounded-3 d-flex align-items-center background-hover transition-all h-100 bg-white shadow-sm">
                                     <div class="bg-success bg-opacity-10 p-3 rounded-3 me-3">
                                         <i class="bi bi-key-fill text-success fs-4"></i>
@@ -166,7 +166,7 @@
                             </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="/admin/groups" class="text-decoration-none action-card">
+                            <a href="<?= base_url('admin/groups') ?>" class="text-decoration-none action-card">
                                 <div class="p-3 border rounded-3 d-flex align-items-center background-hover transition-all h-100 bg-white shadow-sm">
                                     <div class="bg-warning bg-opacity-10 p-3 rounded-3 me-3">
                                         <i class="bi bi-layers-half text-warning fs-4"></i>

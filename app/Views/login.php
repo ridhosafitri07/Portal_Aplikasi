@@ -184,7 +184,7 @@
 <div class="card-login">
     <!-- LEFT -->
     <div class="panel-left">
-        <img src="/images/bg-login.jpeg" alt="portal bg" class="bg-img"
+        <img src="<?= base_url('images/bg-login.jpeg') ?>" alt="portal bg" class="bg-img"
              onerror="this.style.display='none'">
         <div class="overlay-text">
             <h1>WELCOME</h1>

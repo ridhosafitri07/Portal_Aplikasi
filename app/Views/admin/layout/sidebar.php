@@ -23,23 +23,23 @@
     <div class="flex-grow-1 overflow-y-auto">
         <div class="menu-label">Menu Utama</div>
 
-        <a href="/admin/dashboard" class="<?= (url_is('admin/dashboard*')) ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/dashboard') ?>" class="<?= (url_is('admin/dashboard*')) ? 'active' : '' ?>">
             <i class="bi bi-speedometer2"></i> Dashboard
         </a>
 
-        <a href="/admin/groups" class="<?= (url_is('admin/groups*')) ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/groups') ?>" class="<?= (url_is('admin/groups*')) ? 'active' : '' ?>">
             <i class="bi bi-people-fill"></i> Kelola Group
         </a>
 
-        <a href="/admin/apps" class="<?= (url_is('admin/apps*')) ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/apps') ?>" class="<?= (url_is('admin/apps*')) ? 'active' : '' ?>">
             <i class="bi bi-grid-fill"></i> Kelola Aplikasi
         </a>
 
-        <a href="/admin/users" class="<?= (url_is('admin/users*')) ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/users') ?>" class="<?= (url_is('admin/users*')) ? 'active' : '' ?>">
             <i class="bi bi-person-fill"></i> Kelola User
         </a>
 
-        <a href="/admin/access" class="<?= (url_is('admin/access*')) ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/access') ?>" class="<?= (url_is('admin/access*')) ? 'active' : '' ?>">
             <i class="bi bi-shield-lock-fill"></i> Kelola Akses
         </a>
     </div>
@@ -47,10 +47,10 @@
     <!-- Bagian Bawah (Account) -->
     <div class="account-section mt-auto">
         <div class="menu-label">Pengaturan Akun</div>
-        <a href="/admin/profile" class="<?= (url_is('admin/profile*')) ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/profile') ?>" class="<?= (url_is('admin/profile*')) ? 'active' : '' ?>">
             <i class="bi bi-person-bounding-box"></i> Profile Saya
         </a>
-        <a href="/auth/logout" class="logout-link" style="color: #e74c3c;">
+        <a href="<?= base_url('auth/logout') ?>" class="logout-link" style="color: #e74c3c;">
             <i class="bi bi-box-arrow-left"></i> Keluar
         </a>
     </div>

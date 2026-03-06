@@ -10,7 +10,7 @@
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="/admin/dashboard" class="text-decoration-none text-primary">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>" class="text-decoration-none text-primary">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Profil Saya</li>
             </ol>
         </nav>

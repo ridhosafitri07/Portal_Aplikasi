@@ -10,7 +10,7 @@
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="/admin/dashboard" class="text-decoration-none text-primary">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>" class="text-decoration-none text-primary">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Kelola Akses</li>
             </ol>
         </nav>
@@ -193,7 +193,7 @@
                                         </td>
                                         <td class="text-center pe-4">
                                             <div class="btn-group shadow-sm" style="border-radius: 8px; overflow: hidden;">
-                                                <a href="/admin/access/delete/<?= $access['id_access'] ?>"
+                                                <a href="<?= base_url('admin/access/delete/' . $access['id_access']) ?>"
                                                    class="btn btn-sm btn-white text-danger border-0"
                                                    title="Hapus Akses"
                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus hak akses ini?')">

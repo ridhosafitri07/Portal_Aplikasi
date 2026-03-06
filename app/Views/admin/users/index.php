@@ -10,7 +10,7 @@
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="/admin/dashboard" class="text-decoration-none text-primary">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>" class="text-decoration-none text-primary">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Kelola User</li>
             </ol>
         </nav>
@@ -214,7 +214,7 @@
                                                     <i class="bi bi-pencil-square"></i>
                                                 </button>
                                                 <div class="vr my-2" style="width: 1px; background-color: #eee;"></div>
-                                                <a href="/admin/users/delete/<?= $user['id_user'] ?>"
+                                                <a href="<?= base_url('admin/users/delete/' . $user['id_user']) ?>"
                                                    class="btn btn-sm btn-white text-danger border-0"
                                                    onclick="return confirm('Yakin ingin menonaktifkan/menghapus user ini?')"
                                                    title="Hapus User">
