@@ -82,8 +82,9 @@
                         <i class="bi bi-plus-square-fill me-2"></i>Tambah Aplikasi
                     </h6>
                 </div>
+                </div>
                 <div class="card-body bg-light-subtle">
-                    <form action="/admin/apps/store" method="POST">
+                    <form action="<?= base_url('admin/apps/store') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-uppercase text-muted">Nama Aplikasi</label>
@@ -255,7 +256,7 @@
         const nama = button.getAttribute('data-nama')
         const url  = button.getAttribute('data-url')
 
-        document.getElementById('formEdit').action = '/admin/apps/update/' + id
+        document.getElementById('formEdit').action = '<?= base_url('admin/apps/update') ?>/' + id
         document.getElementById('inputNama').value = nama
         document.getElementById('inputUrl').value  = url
     })

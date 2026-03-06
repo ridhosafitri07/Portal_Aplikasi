@@ -69,8 +69,9 @@
                         <i class="bi bi-shield-plus me-2"></i>Tambah Grup Baru
                     </h6>
                 </div>
+                </div>
                 <div class="card-body bg-light-subtle">
-                    <form action="/admin/groups/store" method="POST">
+                    <form action="<?= base_url('admin/groups/store') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="mb-4">
                             <label class="form-label small fw-bold text-uppercase text-muted">Nama Grup / Role</label>
@@ -218,7 +219,7 @@
         const button   = event.relatedTarget
         const id       = button.getAttribute('data-id')
         const nama     = button.getAttribute('data-nama')
-        document.getElementById('formEdit').action = '/admin/groups/update/' + id
+        document.getElementById('formEdit').action = '<?= base_url('admin/groups/update') ?>/' + id
         document.getElementById('inputNama').value = nama
     })
 </script>

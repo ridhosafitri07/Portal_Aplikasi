@@ -89,8 +89,9 @@
                         <i class="bi bi-plus-circle-dotted me-2"></i>Tambah Akses
                     </h6>
                 </div>
+                </div>
                 <div class="card-body bg-light-subtle">
-                    <form action="/admin/access/store" method="POST">
+                    <form action="<?= base_url('admin/access/store') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-uppercase text-muted">Grup Pengguna</label>

@@ -87,7 +87,7 @@
                     <h5 class="fw-bold text-primary mb-0"><i class="bi bi-person-gear me-2"></i>Informasi Personal</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="/admin/profile/update" method="POST">
+                    <form action="<?= base_url('admin/profile/update') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -127,7 +127,7 @@
                     <h5 class="fw-bold text-danger mb-0"><i class="bi bi-shield-lock me-2"></i>Keamanan Akun</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="/admin/profile/password" method="POST">
+                    <form action="<?= base_url('admin/profile/password') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="mb-4">
                             <label class="form-label small fw-bold text-muted text-uppercase">Password Lama</label>

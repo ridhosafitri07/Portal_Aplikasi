@@ -83,8 +83,9 @@
                         <i class="bi bi-person-plus-fill me-2"></i>Registrasi User Baru
                     </h6>
                 </div>
+                </div>
                 <div class="card-body bg-light-subtle">
-                    <form action="/admin/users/store" method="POST">
+                    <form action="<?= base_url('admin/users/store') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-uppercase text-muted">Nama Lengkap</label>
@@ -371,7 +372,7 @@
         const hp       = button.getAttribute('data-hp')
         const group    = button.getAttribute('data-group')
 
-        document.getElementById('formEdit').action = '/admin/users/update/' + id
+        document.getElementById('formEdit').action = '<?= base_url('admin/users/update') ?>/' + id
 
         document.getElementById('inputNama').value     = nama
         document.getElementById('inputUsername').value = username
