@@ -15,13 +15,13 @@ $routes->get('auth/logout', 'AuthController::logout');
 $routes->get('auth/forgot', 'AuthController::forgot');
 
 // Forgot Password (publik)
-$routes->get('forgot-password',          'ForgotPasswordController::index');
+$routes->get('forgot-password',                'ForgotPasswordController::index');
 $routes->post('forgot-password/api/send-otp',  'ForgotPasswordController::sendOTP');
-$routes->get('forgot-password/verify',   'ForgotPasswordController::verifyOTP');
-$routes->post('forgot-password/verify',  'ForgotPasswordController::verifyOTP');
-$routes->get('forgot-password/reset',    'ForgotPasswordController::resetPassword');
-$routes->post('forgot-password/reset',   'ForgotPasswordController::resetPassword');
-$routes->get('forgot-password/success',  'ForgotPasswordController::success');
+$routes->get('forgot-password/verify',         'ForgotPasswordController::verifyOTP');
+$routes->post('forgot-password/verify',        'ForgotPasswordController::verifyOTP');
+$routes->get('forgot-password/reset',          'ForgotPasswordController::resetPassword');
+$routes->post('forgot-password/reset',         'ForgotPasswordController::resetPassword');
+$routes->get('forgot-password/success',        'ForgotPasswordController::success');
 
 // User area (harus login + role user)
 $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
@@ -29,6 +29,7 @@ $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
     $routes->get('profile',           'UserController::profile');
     $routes->post('profile/update',   'UserController::updateProfile');
     $routes->post('profile/password', 'UserController::updatePassword');
+    $routes->get('info',              'InfoController::index');   // ← BARU: halaman info
 });
 
 // Admin area (harus login + role admin)

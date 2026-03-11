@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login – Application Portal</title>
+    <title>Login - Application Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -17,19 +17,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 16px;
         }
 
         .card-login {
             display: flex;
             width: 900px;
-            max-width: 98vw;
+            max-width: 100%;
             min-height: 480px;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,.15);
         }
 
-        /* ── LEFT PANEL ── */
+        /* LEFT PANEL */
         .panel-left {
             flex: 0 0 46%;
             position: relative;
@@ -73,7 +74,7 @@
             font-style: italic;
         }
 
-        /* ── RIGHT PANEL ── */
+        /* RIGHT PANEL */
         .panel-right {
             flex: 1;
             background: #fff;
@@ -172,10 +173,156 @@
             margin-bottom: 18px;
         }
 
-        @media (max-width: 700px) {
-            .card-login { flex-direction: column; }
-            .panel-left { min-height: 200px; flex: none; }
-            .panel-right { padding: 36px 28px; }
+        /* MOBILE — Card melayang, tanpa foto */
+        @media (max-width: 768px) {
+            body {
+                padding: 24px 16px;
+                align-items: center;
+                justify-content: center;
+                min-height: 100svh;
+                background: #dde8f5;
+            }
+
+            .card-login {
+                flex-direction: column;
+                width: 100%;
+                max-width: 420px;
+                min-height: unset;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0,0,0,.15);
+                background: transparent;
+            }
+
+            .panel-left { display: none; }
+
+            .panel-right {
+                flex: 1;
+                background: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 48px 36px;
+                border-radius: 20px;
+            }
+
+            .panel-right h2 {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #111;
+                margin-bottom: 4px;
+                text-align: left;
+            }
+
+            .panel-right .subtitle {
+                font-size: .88rem;
+                color: #888;
+                margin-bottom: 32px;
+                text-align: left;
+            }
+
+            .form-floating-custom input {
+                background: #f2f4f8;
+                border: none;
+                border-radius: 10px;
+                color: #333;
+                padding: 14px 44px 14px 42px;
+                font-size: .9rem;
+            }
+
+            .form-floating-custom input::placeholder {
+                color: #aaa;
+            }
+
+            .form-floating-custom input:focus {
+                box-shadow: 0 0 0 2.5px #4a9df8;
+                background: #edf4ff;
+            }
+
+            .form-floating-custom .icon {
+                color: #aaa;
+            }
+
+            .form-floating-custom .toggle-pw {
+                color: #bbb;
+            }
+
+            .form-floating-custom { margin-bottom: 18px; }
+
+            .forgot {
+                color: #555;
+                font-size: .82rem;
+                text-align: left;
+                margin-bottom: 24px;
+            }
+
+            .forgot:hover { color: #1a73e8; }
+
+            .btn-login {
+                background: linear-gradient(90deg, #3d8ef0, #5cb8ff);
+                color: #fff;
+                font-weight: 600;
+                font-size: 1rem;
+                border-radius: 10px;
+                padding: 14px;
+                box-shadow: none;
+            }
+
+            .btn-login:hover {
+                opacity: .92;
+                transform: translateY(-1px);
+            }
+
+            .alert-danger {
+                border-radius: 10px;
+                font-size: .85rem;
+                margin-bottom: 18px;
+            }
+        }
+
+        /* Mobile kecil */
+        @media (max-width: 400px) {
+            .panel-right { padding: 40px 24px; }
+            .panel-right h2 { font-size: 1.75rem; }
+            .form-floating-custom input { padding: 14px 42px 14px 44px; font-size: .86rem; }
+            .btn-login { padding: 13px; }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body { align-items: flex-start; }
+
+            .card-login { flex-direction: row; min-height: 100svh; }
+
+            .panel-left {
+                display: flex !important;
+                flex: 0 0 38%;
+                min-height: 100svh;
+                background: linear-gradient(160deg, #cfe4f8 0%, #e8f3ff 100%) !important;
+                padding: 20px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .panel-left .bg-img { display: none; }
+
+            .panel-left .overlay-text { text-align: center; }
+            .panel-left .overlay-text h1 { font-size: 1.6rem; color: #1a5fb4; }
+            .panel-left .overlay-text p  { color: #2e7fe8; font-size: .82rem; font-style: italic; }
+
+            .panel-right {
+                flex: 1;
+                background: #fff;
+                padding: 20px 28px;
+                overflow-y: auto;
+                justify-content: center;
+                border-radius: 0;
+            }
+
+            .panel-right h2 { font-size: 1.4rem; color: #111; text-align: left; }
+            .panel-right .subtitle { color: #888; text-align: left; margin-bottom: 14px; }
+            .form-floating-custom { margin-bottom: 10px; }
+            .forgot { margin-bottom: 16px; color: #555; }
+            .btn-login { padding: 11px; }
         }
     </style>
 </head>
@@ -209,7 +356,7 @@
 
             <div class="form-floating-custom">
                 <i class="bi bi-envelope icon"></i>
-                <input type="text" name="username" placeholder="Username "
+                <input type="text" name="username" placeholder="Username"
                        value="<?= old('username') ?>" autocomplete="username" required>
             </div>
 

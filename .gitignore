@@ -45,6 +45,9 @@ $RECYCLE.BIN/
 .vagrant
 Vagrantfile
 
+forgot-password-wa/.wwebjs_auth/
+forgot-password-wa/.wwebjs_cache/
+
 #-------------------------
 # Temporary Files
 #-------------------------

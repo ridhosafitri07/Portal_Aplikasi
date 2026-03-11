@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// ─── WhatsApp Client ───────────────────────────────────────────
+// WhatsApp Client 
 const SESSION_PATH = './.wwebjs_auth/session-otp-bot';
 const sessionExists = fs.existsSync(SESSION_PATH);
 
@@ -31,7 +31,7 @@ if (sessionExists) {
 }
 
 waClient.on('qr', (qr) => {
-  if (!qrShownOnce) {  // Hanya tampilkan QR sekali saja
+  if (!qrShownOnce) {  
     console.log('\n📱 QR Code baru! Scan dengan WhatsApp Admin:\n');
     qrcode.generate(qr, { small: true });
     qrShownOnce = true;
@@ -45,7 +45,6 @@ waClient.on('authenticated', () => {
 waClient.on('ready', () => {
   waReady = true;
   
-  // Conditional message based on whether it's first init or reconnect
   if (isFirstInit) {
     console.log('\n🔄 Menyingkronkan WhatsApp...');
     setTimeout(() => {
@@ -59,7 +58,7 @@ waClient.on('ready', () => {
 
 waClient.on('disconnected', () => {
   waReady = false;
-  qrShownOnce = false;  // Reset QR flag saat disconnect
+  qrShownOnce = false;  
   console.log('\n⚠️  WhatsApp Bot disconnected. Mencoba reconnect...\n');
 });
 
@@ -69,7 +68,7 @@ waClient.initialize();
 app.locals.waClient = waClient;
 app.locals.getWaReady = () => waReady;
 
-// ─── Routes ────────────────────────────────────────────────────
+// Routes 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 

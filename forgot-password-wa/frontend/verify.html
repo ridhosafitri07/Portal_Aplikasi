@@ -6,37 +6,112 @@
   <title>Verifikasi OTP</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', sans-serif; background: #EBF5FB; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,100,200,0.1); padding: 40px 36px; width: 100%; max-width: 420px; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #EBF5FB;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,100,200,0.1);
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 420px;
+    }
+
     h2 { text-align: center; color: #1565C0; font-size: 22px; margin-bottom: 8px; }
+
     p.subtitle { text-align: center; color: #607D8B; font-size: 13px; margin-bottom: 28px; }
-    .otp-wrap { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
-    .otp-wrap input { width: 48px; height: 56px; text-align: center; font-size: 22px; font-weight: 700; border: 1.5px solid #BBDEFB; border-radius: 10px; color: #1565C0; outline: none; transition: border 0.2s; }
+
+    .otp-wrap {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .otp-wrap input {
+      width: 48px; height: 56px;
+      text-align: center;
+      font-size: 22px; font-weight: 700;
+      border: 1.5px solid #BBDEFB;
+      border-radius: 10px;
+      color: #1565C0; outline: none;
+      transition: border 0.2s;
+      /* prevent zoom on iOS */
+      font-size: 18px;
+    }
+
     .otp-wrap input:focus { border-color: #1976D2; }
-    button { width: 100%; padding: 12px; background: #1976D2; color: #fff; font-size: 15px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+
+    button {
+      width: 100%; padding: 12px;
+      background: #1976D2; color: #fff;
+      font-size: 15px; font-weight: 600;
+      border: none; border-radius: 8px;
+      cursor: pointer; transition: background 0.2s;
+    }
+
     button:hover { background: #1565C0; }
     button:disabled { background: #90CAF9; cursor: not-allowed; }
+
     .msg { margin-top: 14px; font-size: 13px; text-align: center; color: #D32F2F; min-height: 18px; }
+
     .timer { text-align: center; color: #1976D2; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+
     .resend { text-align: center; margin-top: 14px; font-size: 13px; color: #607D8B; }
     .resend a { color: #1976D2; cursor: pointer; font-weight: 600; text-decoration: none; }
     .resend a:hover { text-decoration: underline; }
+
     .steps { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; }
     .step { width: 28px; height: 6px; border-radius: 3px; background: #BBDEFB; }
     .step.active { background: #1976D2; }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .card { padding: 32px 20px; border-radius: 12px; }
+      h2 { font-size: 20px; }
+      p.subtitle { font-size: 12px; margin-bottom: 20px; }
+
+      .otp-wrap { gap: 7px; }
+      .otp-wrap input {
+        width: 42px; height: 50px;
+        font-size: 18px; border-radius: 8px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .otp-wrap input { width: 36px; height: 44px; font-size: 16px; }
+      .otp-wrap { gap: 5px; }
+      .card { padding: 28px 16px; }
+    }
   </style>
 </head>
 <body>
 <div class="card">
+
   <div class="steps">
     <div class="step active"></div>
     <div class="step active"></div>
     <div class="step"></div>
     <div class="step"></div>
   </div>
+
   <h2>Verifikasi OTP</h2>
+
   <p class="subtitle">Masukkan 6 digit kode OTP yang telah dikirim ke WhatsApp Anda.</p>
-  <div class="timer" id="timer">⏱ Kode berlaku: <span id="countdown">3:00</span></div>
+
+  <div class="timer" id="timer">⏱ Kode berlaku:
+    <span id="countdown">3:00</span>
+  </div>
+
   <div class="otp-wrap" id="otpInputs">
     <input type="text" maxlength="1" inputmode="numeric"/>
     <input type="text" maxlength="1" inputmode="numeric"/>
@@ -45,17 +120,21 @@
     <input type="text" maxlength="1" inputmode="numeric"/>
     <input type="text" maxlength="1" inputmode="numeric"/>
   </div>
+
   <button onclick="verifyOTP()">Verifikasi</button>
+
   <p class="msg" id="msg"></p>
+
   <div class="resend" id="resendWrap" style="display:none">
     Tidak menerima kode? <a onclick="resendOTP()">Kirim Ulang</a>
   </div>
+
 </div>
+
 <script>
   const hp = sessionStorage.getItem('fp_hp');
   if (!hp) window.location.href = 'index.html';
 
-  // OTP input navigation
   const inputs = document.querySelectorAll('.otp-wrap input');
   inputs.forEach((inp, i) => {
     inp.addEventListener('input', () => {
@@ -65,9 +144,18 @@
     inp.addEventListener('keydown', (e) => {
       if (e.key === 'Backspace' && !inp.value && i > 0) inputs[i - 1].focus();
     });
+    // Handle paste
+    inp.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+      [...pasted].slice(0, 6).forEach((ch, j) => {
+        if (inputs[i + j]) inputs[i + j].value = ch;
+      });
+      const next = Math.min(i + pasted.length, 5);
+      inputs[next].focus();
+    });
   });
 
-  // Countdown 3 menit
   let totalSeconds = 180;
   let timerInterval = startTimer();
 
@@ -91,11 +179,10 @@
     const otp = [...inputs].map(i => i.value).join('');
     const msg = document.getElementById('msg');
     msg.style.color = '#D32F2F';
-
     if (otp.length < 6) { msg.textContent = 'Masukkan 6 digit kode OTP.'; return; }
 
     try {
-      const res = await fetch('/api/auth/verify-otp', {
+      const res  = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ hp, otp })
@@ -115,17 +202,14 @@
   }
 
   async function resendOTP() {
-    const msg = document.getElementById('msg');
+    const msg      = document.getElementById('msg');
     msg.style.color = '#1976D2';
     msg.textContent = 'Mengirim ulang OTP...';
-
-    // We need username — ideally stored in sessionStorage too
-    // For simplicity, redirect back to step 1 if not stored
-    const username = sessionStorage.getItem('fp_username');
+    const username  = sessionStorage.getItem('fp_username');
     if (!username) { window.location.href = 'index.html'; return; }
 
     try {
-      const res = await fetch('/api/auth/request-otp', {
+      const res  = await fetch('/api/auth/request-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, hp })

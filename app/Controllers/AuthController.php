@@ -9,7 +9,6 @@ class AuthController extends BaseController
 {
     // Session sudah di-inject di BaseController via $this->session
 
-    // ── Tampilkan form login ──────────────────────────────────
     public function index(): string|RedirectResponse
     {
         if ($this->session->get('logged_in')) {
@@ -18,9 +17,12 @@ class AuthController extends BaseController
         return view('login');
     }
 
-    // ── Proses login ─────────────────────────────────────────
-    public function login(): RedirectResponse
+    //  Proses login
+     public function login(): RedirectResponse
     {
+        /** @var \CodeIgniter\HTTP\IncomingRequest $request */
+        $request = $this->request;
+
         $rules = [
             'username' => 'required|min_length[3]',
             'password' => 'required|min_length[4]',
@@ -35,8 +37,8 @@ class AuthController extends BaseController
                 ->with('error', 'Username dan password wajib diisi.');
         }
 
-        $username = (string) $this->request->getPost('username');
-        $password = (string) $this->request->getPost('password');
+        $username = (string) $request->getPost('username');
+        $password = (string) $request->getPost('password');
 
         $userModel = new UserModel();
         $user      = $userModel->findByUsername($username);
@@ -47,13 +49,12 @@ class AuthController extends BaseController
                 ->with('error', 'Username atau password salah.');
         }
 
-        // 1. Cek password hash (normal)
+        // 1. Cek password 
         if (password_verify($password, $user['password_hash'])) {
-            // lanjut login
         }
         // 2. Fallback: kalau password di DB masih plain text
         elseif ($password === $user['password_hash']) {
-            // auto hash ulang biar kedepannya aman
+            // auto hash
             $newHash = password_hash($password, PASSWORD_DEFAULT);
             $userModel->update($user['id_user'], [
                 'password_hash' => $newHash
@@ -78,7 +79,7 @@ class AuthController extends BaseController
         return $this->redirectByRole();
     }
 
-    // ── Logout ───────────────────────────────────────────────
+    // Logout
     public function logout(): RedirectResponse
     {
         $this->session->destroy();
@@ -87,13 +88,13 @@ class AuthController extends BaseController
         return $redirector->to(base_url('auth'));
     }
 
-    // ── Halaman lupa password (placeholder) ──────────────────
+    // Halaman lupa password (placeholder)
     public function forgot(): string
     {
         return view('auth/forgot');
     }
 
-    // ── Helper redirect berdasarkan role ─────────────────────
+    // Helper redirect berdasarkan role
     private function redirectByRole(): RedirectResponse
     {
         $role = (string) $this->session->get('role');
