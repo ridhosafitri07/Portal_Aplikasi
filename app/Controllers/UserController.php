@@ -21,7 +21,6 @@ class UserController extends Controller
         return view('user/dashboard', ['apps' => $apps]);
     }
 
-     // ── Tampilkan halaman profil ──────────────────────────────
     public function profile(): string
     {
         $userModel = new UserModel();
@@ -30,7 +29,7 @@ class UserController extends Controller
         return view('user/profile', ['user' => $user]);
     }
 
-    // ── Update profile info (nama & username) ─────────────────
+    // Update profile info
     public function updateProfile(): RedirectResponse
     {
         $rules = [
@@ -68,7 +67,7 @@ class UserController extends Controller
             'update_at' => date('Y-m-d H:i:s'),
         ]);
 
-        // Update session agar topbar langsung berubah
+        // Update session 
         session()->set('nama_user', $namaUser);
         session()->set('username', $username);
 
@@ -76,7 +75,7 @@ class UserController extends Controller
             ->with('success', 'Profil berhasil diperbarui.');
     }
 
-    // ── Update password ───────────────────────────────────────
+    // Update password 
     public function updatePassword(): RedirectResponse
     {
         $rules = [

@@ -6,7 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// ── Auth (publik) ─────────────────────────────────────────────────
+// Auth (publik) 
 $routes->get('/',           'AuthController::index');
 $routes->post('/',          'AuthController::login');
 $routes->get('auth',        'AuthController::index');
@@ -14,24 +14,25 @@ $routes->post('auth/login', 'AuthController::login');
 $routes->get('auth/logout', 'AuthController::logout');
 $routes->get('auth/forgot', 'AuthController::forgot');
 
-// ── Forgot Password (publik) ──────────────────────────────────────
-$routes->get('forgot-password',          'ForgotPasswordController::index');
+// Forgot Password (publik)
+$routes->get('forgot-password',                'ForgotPasswordController::index');
 $routes->post('forgot-password/api/send-otp',  'ForgotPasswordController::sendOTP');
-$routes->get('forgot-password/verify',   'ForgotPasswordController::verifyOTP');
-$routes->post('forgot-password/verify',  'ForgotPasswordController::verifyOTP');
-$routes->get('forgot-password/reset',    'ForgotPasswordController::resetPassword');
-$routes->post('forgot-password/reset',   'ForgotPasswordController::resetPassword');
-$routes->get('forgot-password/success',  'ForgotPasswordController::success');
+$routes->get('forgot-password/verify',         'ForgotPasswordController::verifyOTP');
+$routes->post('forgot-password/verify',        'ForgotPasswordController::verifyOTP');
+$routes->get('forgot-password/reset',          'ForgotPasswordController::resetPassword');
+$routes->post('forgot-password/reset',         'ForgotPasswordController::resetPassword');
+$routes->get('forgot-password/success',        'ForgotPasswordController::success');
 
-// ── User area (harus login + role user) ──────────────────────────
+// User area (harus login + role user)
 $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
     $routes->get('dashboard',         'UserController::dashboard');
     $routes->get('profile',           'UserController::profile');
     $routes->post('profile/update',   'UserController::updateProfile');
     $routes->post('profile/password', 'UserController::updatePassword');
+    $routes->get('info',              'InfoController::index');   // ← BARU: halaman info
 });
 
-// ── Admin area (harus login + role admin) ────────────────────────
+// Admin area (harus login + role admin)
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard',                   'Admin\AdminController::index');
 
@@ -48,7 +49,6 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->post('groups/store',               'Admin\GroupController::store');
     $routes->post('groups/update/(:num)',       'Admin\GroupController::update/$1');
     $routes->get('groups/delete/(:num)',        'Admin\GroupController::delete/$1');
-    
 
     // Route untuk Admin - Apps
     $routes->get('apps',                        'Admin\AppsController::index');

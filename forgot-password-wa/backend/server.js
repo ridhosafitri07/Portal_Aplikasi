@@ -11,21 +11,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// ─── WhatsApp Client ───────────────────────────────────────────
+// WhatsApp Client 
 const SESSION_PATH = './.wwebjs_auth/session-otp-bot';
 const sessionExists = fs.existsSync(SESSION_PATH);
 
-const client = new Client({
-    puppeteer: {
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu'
-        ],
-        timeout: 60000
-    }
+const waClient = new Client({
+  authStrategy: new LocalAuth({ clientId: 'otp-bot', dataPath: './.wwebjs_auth' }),
+  puppeteer: { args: ['--no-sandbox'] }
 });
 
 let waReady = false;
@@ -37,21 +29,22 @@ if (sessionExists) {
   console.log('📞 Session sudah ada, skipping QR code...\n');
   isFirstInit = false;
 }
-client.on('qr', (qr) => {
-  if (!qrShownOnce) {
+
+waClient.on('qr', (qr) => {
+  if (!qrShownOnce) {  
     console.log('\n📱 QR Code baru! Scan dengan WhatsApp Admin:\n');
     qrcode.generate(qr, { small: true });
     qrShownOnce = true;
   }
 });
 
-client.on('authenticated', () => {
+waClient.on('authenticated', () => {
   console.log('🔐 WhatsApp berhasil diautentikasi.');
 });
 
-client.on('ready', () => {
+waClient.on('ready', () => {
   waReady = true;
-
+  
   if (isFirstInit) {
     console.log('\n🔄 Menyingkronkan WhatsApp...');
     setTimeout(() => {
@@ -63,21 +56,19 @@ client.on('ready', () => {
   }
 });
 
-client.on('disconnected', () => {
+waClient.on('disconnected', () => {
   waReady = false;
-  qrShownOnce = false;
-  console.log('\n⚠️ WhatsApp Bot disconnected. Mencoba reconnect...\n');
+  qrShownOnce = false;  
+  console.log('\n⚠️  WhatsApp Bot disconnected. Mencoba reconnect...\n');
 });
 
-client.initialize();
-
-app.locals.waClient = client;
+waClient.initialize();
 
 // Export waClient & waReady ke routes
-app.locals.waClient = client;
+app.locals.waClient = waClient;
 app.locals.getWaReady = () => waReady;
 
-// ─── Routes ────────────────────────────────────────────────────
+// Routes 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 

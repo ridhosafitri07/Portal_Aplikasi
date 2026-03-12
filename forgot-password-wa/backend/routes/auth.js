@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 // In-memory OTP store: { phone: { otp, expiry, username } }
 const otpStore = {};
 
-// ─── Kirim OTP ─────────────────────────────────────────────────
+// Kirim OTP 
 router.post('/request-otp', async (req, res) => {
   const { username, hp } = req.body;
 
@@ -22,7 +22,6 @@ router.post('/request-otp', async (req, res) => {
   }
 
   try {
-    // Cek user di DB (kolom hp_ di tabel user)
     console.log(`🔍 Mencari user dengan username: ${username} dan no hp: ${hp}`);
     
     const [rows] = await db.query(
@@ -38,14 +37,12 @@ router.post('/request-otp', async (req, res) => {
     const user = rows[0];
     console.log(`✅ User ditemukan: ${user.nama_user} (${user.hp_})`);
 
-    // Generate OTP 6 digit
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = Date.now() + 3 * 60 * 1000; // 3 menit
 
-    // Simpan OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = Date.now() + 3 * 60 * 1000; //
+
     otpStore[hp] = { otp, expiry, username };
 
-    // Format nomor WA (contoh: 08xxx → 628xxx)
     let waNumber = hp.replace(/^0/, '62').replace(/\D/g, '');
     if (!waNumber.startsWith('62')) waNumber = '62' + waNumber;
     waNumber += '@c.us';
@@ -76,7 +73,7 @@ Tim Portal Aplikasi`;
   }
 });
 
-// ─── Verifikasi OTP ────────────────────────────────────────────
+// Verifikasi OTP 
 router.post('/verify-otp', (req, res) => {
   const { hp, otp } = req.body;
 
@@ -99,14 +96,14 @@ router.post('/verify-otp', (req, res) => {
     return res.status(400).json({ success: false, message: 'Kode OTP salah.' });
   }
 
-  // OTP valid — tandai sebagai verified, jangan hapus dulu (butuh untuk reset)
+  // OTP valid
   otpStore[hp].verified = true;
   console.log(`✅ OTP berhasil diverifikasi untuk hp: ${hp} (username: ${record.username})`);
 
   return res.json({ success: true, message: 'OTP valid.' });
 });
 
-// ─── Reset Password ────────────────────────────────────────────
+// Reset Password
 router.post('/reset-password', async (req, res) => {
   const { hp, password, confirmPassword } = req.body;
 
@@ -129,7 +126,7 @@ router.post('/reset-password', async (req, res) => {
     
     await db.query('UPDATE user SET password_hash = ? WHERE username = ?', [hashed, record.username]);
 
-    delete otpStore[hp]; // Bersihkan OTP setelah berhasil
+    delete otpStore[hp];
     
     console.log(`✅ Password berhasil diubah untuk user: ${record.username}`);
 

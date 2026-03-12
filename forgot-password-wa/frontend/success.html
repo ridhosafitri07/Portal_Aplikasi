@@ -6,30 +6,92 @@
   <title>Berhasil!</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', sans-serif; background: #EBF5FB; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,100,200,0.1); padding: 48px 36px; width: 100%; max-width: 420px; text-align: center; }
-    .icon { font-size: 64px; margin-bottom: 20px; animation: pop 0.5s ease; }
-    @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #EBF5FB;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,100,200,0.1);
+      padding: 48px 36px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      animation: pop 0.5s ease;
+      display: block;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
     h2 { color: #1565C0; font-size: 24px; margin-bottom: 10px; }
-    p { color: #607D8B; font-size: 14px; margin-bottom: 32px; line-height: 1.6; }
-    a { display: inline-block; padding: 12px 32px; background: #1976D2; color: #fff; font-size: 15px; font-weight: 600; border-radius: 8px; text-decoration: none; transition: background 0.2s; }
+
+    p {
+      color: #607D8B; font-size: 14px;
+      margin-bottom: 32px; line-height: 1.6;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #1976D2; color: #fff;
+      font-size: 15px; font-weight: 600;
+      border-radius: 8px; text-decoration: none;
+      transition: background 0.2s;
+    }
+
     a:hover { background: #1565C0; }
+
     .steps { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
-    .step { width: 28px; height: 6px; border-radius: 3px; background: #1976D2; }
+    .step  { width: 28px; height: 6px; border-radius: 3px; background: #1976D2; }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .card { padding: 40px 20px; border-radius: 12px; }
+      .icon { font-size: 52px; }
+      h2 { font-size: 21px; }
+      p  { font-size: 13px; }
+      a  { width: 100%; text-align: center; padding: 12px 20px; }
+    }
+
+    @media (max-width: 360px) {
+      .card { padding: 32px 16px; }
+    }
   </style>
 </head>
 <body>
 <div class="card">
+
   <div class="steps">
     <div class="step"></div>
     <div class="step"></div>
     <div class="step"></div>
     <div class="step"></div>
   </div>
-  <div class="icon">🎉</div>
+
+  <span class="icon">🎉</span>
+
   <h2>Password Berhasil Diubah!</h2>
+
   <p>Password akun Anda telah berhasil diperbarui.<br/>Silakan login dengan password baru Anda.</p>
+
   <a href="http://localhost:8080/auth">Kembali ke Halaman Login</a>
+
 </div>
 </body>
 </html>

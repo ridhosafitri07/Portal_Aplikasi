@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppPortal – Dashboard</title>
+    <title>AppPortal - Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -67,6 +67,9 @@
             --cancel-hover: #e2e8f0;
             --no-apps-icon-bg: linear-gradient(135deg, #dbeafe, #eff6ff);
             --empty-icon-bg: linear-gradient(135deg, #dbeafe, #eff6ff);
+
+            --navbar-height: 68px;
+            --bottom-nav-height: 64px;
         }
 
         body.dark-mode {
@@ -84,7 +87,7 @@
 
             --bg-body: #080e1f;
             --bg-card: #111827;
-            --bg-navbar: rgba(10,16,35,0.88);
+            --bg-navbar: rgba(10,16,35,0.92);
             --bg-input: rgba(17,24,39,0.9);
             --bg-input-focus: #111827;
             --bg-view-toggle: #111827;
@@ -157,10 +160,10 @@
                 var(--bg-body);
         }
 
-        /* ── NAVBAR ── */
+        /* NAVBAR */
         .navbar {
             position: fixed; top: 0; left: 0; right: 0;
-            height: 68px;
+            height: var(--navbar-height);
             background: var(--bg-navbar);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -225,27 +228,54 @@
             background: rgba(59,130,246,0.15);
         }
 
-        .nav-right {
-            position: absolute; right: 36px;
-            display: flex; align-items: center; gap: 10px;
+        /* BOTTOM NAV */
+        .bottom-nav {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            height: var(--bottom-nav-height);
+            background: var(--bg-navbar);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-top: 1px solid var(--border-color);
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(37,99,235,0.08);
         }
 
-        .nav-avatar {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-weight: 700; font-size: .85rem;
-            font-family: 'Sora', sans-serif;
-            box-shadow: 0 2px 10px rgba(37,99,235,0.35);
-            cursor: pointer; text-decoration: none;
-            transition: transform .2s;
+        .bottom-nav-inner {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: space-around;
         }
 
-        .nav-avatar:hover { transform: scale(1.08); }
+        .bottom-nav-item {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 3px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: .68rem; font-weight: 600;
+            padding: 6px 16px; border-radius: 12px;
+            transition: all .2s;
+            min-width: 64px;
+            background: none; border: none; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
 
-        /* ── MAIN ── */
+        .bottom-nav-item i { font-size: 1.25rem; }
+
+        .bottom-nav-item.active {
+            color: var(--blue-600);
+            background: linear-gradient(135deg, var(--blue-100), var(--blue-50));
+        }
+
+        body.dark-mode .bottom-nav-item.active {
+            color: var(--blue-400);
+            background: rgba(59,130,246,0.15);
+        }
+
+        /* MAIN */
         .main {
-            padding-top: 100px;
+            padding-top: calc(var(--navbar-height) + 32px);
             padding-bottom: 60px;
             max-width: 1360px;
             margin: 0 auto;
@@ -253,7 +283,7 @@
             padding-right: 36px;
         }
 
-        /* ── HERO ── */
+        /* HERO */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 50%, #1e4db7 100%);
             border-radius: 28px;
@@ -301,7 +331,6 @@
             pointer-events: none;
         }
 
-        /* ── HERO INNER LAYOUT ── */
         .hero-inner {
             position: relative; z-index: 2;
             display: flex; align-items: center;
@@ -345,7 +374,6 @@
             font-size: .95rem; font-weight: 400;
         }
 
-        /* ── HERO RIGHT: QUOTE BOX ── */
         .hero-quote-box {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.18);
@@ -358,9 +386,7 @@
             flex-shrink: 0;
         }
 
-        .quote-header {
-            display: flex; align-items: center; gap: 9px;
-        }
+        .quote-header { display: flex; align-items: center; gap: 9px; }
 
         .quote-icon {
             width: 30px; height: 30px; border-radius: 8px;
@@ -391,15 +417,12 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        .quote-dots {
-            display: flex; gap: 5px; align-items: center;
-        }
+        .quote-dots { display: flex; gap: 5px; align-items: center; }
 
         .quote-dot {
             width: 5px; height: 5px; border-radius: 50%;
             background: rgba(255,255,255,0.22);
-            transition: all .35s;
-            cursor: pointer;
+            transition: all .35s; cursor: pointer;
         }
 
         .quote-dot.active {
@@ -407,31 +430,20 @@
             width: 14px; border-radius: 3px;
         }
 
-        .quote-divider {
-            width: 100%; height: 1px;
-            background: rgba(255,255,255,0.12);
-        }
+        .quote-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.12); }
 
-        .quote-footer {
-            display: flex; align-items: flex-end; justify-content: space-between;
-        }
+        .quote-footer { display: flex; align-items: flex-end; justify-content: space-between; }
 
         .quote-apps-num {
             font-family: 'Sora', sans-serif;
             font-size: 1.5rem; font-weight: 700; color: white; line-height: 1;
         }
 
-        .quote-apps-label {
-            font-size: .71rem; color: rgba(255,255,255,0.48); margin-top: 3px;
-        }
+        .quote-apps-label { font-size: .71rem; color: rgba(255,255,255,0.48); margin-top: 3px; }
 
-        .quote-counter {
-            text-align: right;
-        }
+        .quote-counter { text-align: right; }
 
-        .quote-counter-top {
-            font-size: .68rem; color: rgba(255,255,255,0.38); margin-bottom: 2px;
-        }
+        .quote-counter-top { font-size: .68rem; color: rgba(255,255,255,0.38); margin-bottom: 2px; }
 
         .quote-counter-num {
             font-family: 'Sora', sans-serif;
@@ -439,7 +451,7 @@
             color: rgba(255,255,255,0.65);
         }
 
-        /* ── TOOLBAR ── */
+        /* TOOLBAR */
         .toolbar {
             display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 28px; gap: 16px; flex-wrap: wrap;
@@ -452,14 +464,9 @@
             transition: color .3s;
         }
 
-        .toolbar-left p {
-            font-size: .85rem; color: var(--text-muted); margin-top: 3px;
-            transition: color .3s;
-        }
+        .toolbar-left p { font-size: .85rem; color: var(--text-muted); margin-top: 3px; transition: color .3s; }
 
-        .search-wrap {
-            position: relative; flex: 1; max-width: 380px;
-        }
+        .search-wrap { position: relative; flex: 1; max-width: 380px; }
 
         .search-wrap input {
             width: 100%;
@@ -492,6 +499,7 @@
 
         .search-wrap:focus-within i { color: var(--blue-500); }
 
+        /* View toggle */
         .view-toggle {
             display: flex;
             background: var(--bg-view-toggle);
@@ -512,7 +520,7 @@
         .view-toggle button.active,
         .view-toggle button:hover { background: var(--blue-600); color: white; }
 
-        /* ── APP CARDS ── */
+        /* APP CARDS */
         .apps-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -595,15 +603,9 @@
             line-height: 1.3; transition: color .3s;
         }
 
-        .app-card-desc {
-            font-size: .82rem; color: var(--text-muted);
-            flex: 1; margin-bottom: 20px; transition: color .3s;
-        }
+        .app-card-desc { font-size: .82rem; color: var(--text-muted); flex: 1; margin-bottom: 20px; transition: color .3s; }
 
-        .app-card-footer {
-            display: flex; align-items: center; justify-content: space-between;
-            width: 100%;
-        }
+        .app-card-footer { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 
         .app-card-tag {
             font-size: .75rem; font-weight: 600;
@@ -630,7 +632,6 @@
         .btn-launch i { font-size: .8rem; transition: transform .2s; }
         .btn-launch:hover i { transform: translate(2px,-2px); }
 
-        /* LIST VIEW */
         .apps-grid.list-view .app-card {
             flex-direction: row; align-items: center;
             padding: 18px 24px; border-radius: 16px; gap: 18px;
@@ -644,7 +645,6 @@
         .apps-grid.list-view .app-card-desc { margin-bottom: 0; flex: none; }
         .apps-grid.list-view .app-card-footer { width: auto; gap: 12px; }
 
-        /* ICON COLORS */
         .icon-blue   { background: var(--icon-blue-bg);   color: var(--icon-blue-color); }
         .icon-indigo { background: var(--icon-indigo-bg); color: var(--icon-indigo-color); }
         .icon-sky    { background: var(--icon-sky-bg);    color: var(--icon-sky-color); }
@@ -659,7 +659,6 @@
         .tag-violet { background: var(--tag-violet-bg); color: var(--tag-violet-color); }
         .tag-teal   { background: var(--tag-teal-bg);   color: var(--tag-teal-color); }
 
-        /* EMPTY / NO APPS */
         .empty-state { text-align: center; padding: 80px 20px; display: none; }
         .empty-state.show { display: block; }
 
@@ -688,7 +687,6 @@
         .no-apps h3 { font-family: 'Sora', sans-serif; color: var(--text-primary); font-size: 1.3rem; margin-bottom: 10px; transition: color .3s; }
         .no-apps p  { color: var(--text-muted); transition: color .3s; }
 
-        /* MODAL */
         .modal-overlay {
             position: fixed; inset: 0;
             background: rgba(5,10,25,0.65); backdrop-filter: blur(10px);
@@ -739,7 +737,6 @@
 
         .btn-confirm:hover { box-shadow: 0 6px 20px rgba(239,68,68,0.45); transform: translateY(-1px); }
 
-        /* RIPPLE */
         @keyframes ripple { to { transform: scale(4); opacity: 0; } }
 
         .ripple-effect {
@@ -748,38 +745,181 @@
             animation: ripple .6s linear; pointer-events: none;
         }
 
-        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--blue-300); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--blue-400); }
 
         /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .navbar { padding: 0 16px; }
-            .nav-brand { left: 16px; }
-            .nav-right { right: 16px; gap: 6px; }
-            .nav-links a span { display: none; }
-            .main { padding: 88px 16px 48px; }
-            .hero { padding: 28px 24px; border-radius: 20px; }
-            .hero-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+
+        @media (max-width: 900px) {
+            .main { padding-left: 24px; padding-right: 24px; }
+            .navbar { padding: 0 24px; }
+            .nav-brand { left: 24px; }
+            .hero { padding: 28px 28px; }
             .hero h1 { font-size: 1.6rem; }
-            .hero-quote-box { width: 100%; max-width: 100%; min-width: unset; }
-            .apps-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+            .hero-quote-box { min-width: 220px; max-width: 260px; padding: 18px 20px; }
         }
 
-        @media (max-width: 480px) {
-            .hero { padding: 24px 18px; }
-            .hero h1 { font-size: 1.35rem; }
-            .hero p { font-size: .85rem; }
-            .apps-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .app-card { padding: 20px 16px; }
-            .app-icon-wrap { width: 50px; height: 50px; font-size: 1.3rem; }
-            .app-card-name { font-size: .95rem; }
+        @media (max-width: 768px) {
+            :root { --navbar-height: 60px; }
+
+            .nav-links { display: none; }
+
+            .navbar { padding: 0 16px; }
+            .nav-brand { left: 16px; }
+
+            .bottom-nav { display: block; }
+
+            .main {
+                padding-top: calc(var(--navbar-height) + 20px);
+                padding-bottom: calc(var(--bottom-nav-height) + 20px);
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .hero {
+                padding: 24px 20px;
+                border-radius: 20px;
+                margin-bottom: 20px;
+            }
+
+            .hero-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .hero h1 { font-size: 1.4rem; }
+            .hero p  { font-size: .88rem; }
+
+            .hero-badge { font-size: .75rem; padding: 4px 12px; margin-bottom: 12px; }
+
+            .hero-quote-box {
+                width: 100%; max-width: 100%;
+                min-width: unset;
+                padding: 16px 18px;
+                gap: 10px;
+            }
+
+            .quote-text { font-size: .83rem; min-height: 48px; }
+
+            .toolbar {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "title"
+                    "search";
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .toolbar-left { grid-area: title; }
+            .search-wrap  { grid-area: search; max-width: 100%; flex: 1 1 100%; }
+
+            .view-toggle { display: none; }
+
+            .apps-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+
+            .app-card {
+                flex-direction: row !important;
+                align-items: center !important;
+                padding: 12px 12px !important;
+                border-radius: 16px;
+                gap: 10px;
+                min-width: 0;
+                overflow: hidden !important;
+            }
+
+            .app-icon-wrap {
+                margin-bottom: 0 !important;
+                width: 46px !important;
+                height: 46px !important;
+                font-size: 1.25rem !important;
+                flex-shrink: 0 !important;
+                border-radius: 12px !important;
+            }
+
+            .app-card > .app-card-name,
+            .app-card > .app-card-desc { display: none; }
+
+            .app-card-info-mobile-wrap {
+                flex: 1 1 0;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+
+            .app-card-info-mobile-wrap .app-card-name {
+                display: block !important;
+                font-size: .88rem !important;
+                margin-bottom: 2px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .app-card-info-mobile-wrap .app-card-desc {
+                display: block !important;
+                font-size: .75rem !important;
+                margin-bottom: 0 !important;
+                flex: none !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .app-card-footer {
+                width: auto !important;
+                flex-shrink: 0 !important;
+                gap: 8px;
+            }
+
+            .app-card-tag { display: none !important; }
+
+            .btn-launch {
+                padding: 7px 12px !important;
+                font-size: .78rem !important;
+                gap: 4px;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .app-card:hover {
+                transform: none !important;
+                box-shadow: var(--shadow-card) !important;
+                border-color: var(--border-card) !important;
+            }
+
+            .app-card:active { transform: scale(0.98) !important; }
+            .app-card:hover .app-icon-wrap { transform: none !important; }
+            .card-top-accent { display: none; }
+
+            .toolbar-left h2 { font-size: 1.15rem; }
+            .toolbar-left p  { font-size: .8rem; }
         }
     </style>
 </head>
 <body>
+
+<!-- LOGOUT MODAL -->
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+        <div class="modal-icon"><i class="bi bi-power"></i></div>
+        <h3>Keluar dari Akun?</h3>
+        <p>Sesi kamu akan berakhir dan kamu perlu login kembali untuk mengakses portal.</p>
+        <div class="modal-btns">
+            <button class="btn-cancel" onclick="closeLogoutModal()">Batal</button>
+            <button class="btn-confirm" onclick="confirmLogout()">
+                <i class="bi bi-box-arrow-right"></i> Ya, Keluar
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="mainNavbar">
@@ -797,11 +937,27 @@
             <i class="bi bi-person-fill"></i>
             <span>Profil</span>
         </a>
+        <a href="<?= base_url('user/info') ?>">
+            <i class="bi bi-info-circle-fill"></i>
+            <span>Info</span>
+        </a>
     </div>
+</nav>
 
-    <div class="nav-right">
-        <a href="<?= base_url('user/profile') ?>" class="nav-avatar" title="Profil Saya">
-            <?= strtoupper(substr(session('nama_user'), 0, 1)) ?>
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <a href="<?= base_url('user/dashboard') ?>" class="bottom-nav-item active">
+            <i class="bi bi-grid-fill"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="<?= base_url('user/profile') ?>" class="bottom-nav-item">
+            <i class="bi bi-person-fill"></i>
+            <span>Profil</span>
+        </a>
+        <a href="<?= base_url('user/info') ?>" class="bottom-nav-item">
+            <i class="bi bi-info-circle-fill"></i>
+            <span>Info</span>
         </a>
     </div>
 </nav>
@@ -814,7 +970,6 @@
         <div class="hero-orb hero-orb-2"></div>
 
         <div class="hero-inner">
-            <!-- LEFT -->
             <div class="hero-left">
                 <div class="hero-badge">
                     <div class="badge-dot"></div>
@@ -824,7 +979,6 @@
                 <p>Pilih aplikasi yang ingin kamu akses hari ini. Semua dalam satu tempat.</p>
             </div>
 
-            <!-- RIGHT: Quote Box -->
             <div class="hero-quote-box">
                 <div class="quote-header">
                     <div class="quote-icon">
@@ -834,9 +988,7 @@
                 </div>
 
                 <div class="quote-text" id="quoteText">Memuat...</div>
-
                 <div class="quote-dots" id="quoteDots"></div>
-
                 <div class="quote-divider"></div>
 
                 <div class="quote-footer">
@@ -897,10 +1049,8 @@
                 <div class="app-icon-wrap <?= $set['wrap'] ?>">
                     <i class="bi <?= $set['icon'] ?>"></i>
                 </div>
-                <div class="app-card-info" style="display:contents;">
-                    <div class="app-card-name"><?= esc((string)$app['nama']) ?></div>
-                    <div class="app-card-desc">Klik untuk membuka aplikasi ini</div>
-                </div>
+                <div class="app-card-name"><?= esc((string)$app['nama']) ?></div>
+                <div class="app-card-desc">Klik untuk membuka aplikasi ini</div>
                 <div class="app-card-footer">
                     <span class="app-card-tag <?= $set['tag'] ?>"><?= $set['label'] ?></span>
                     <button class="btn-launch" onclick="openApp('<?= base64_encode($app['url_app']) ?>', event)">
@@ -931,9 +1081,7 @@
 </div>
 
 <script>
-// ─────────────────────────────────
-//  DARK MODE
-// ─────────────────────────────────
+
 function applyTheme(theme) {
     document.body.classList.toggle('dark-mode', theme === 'dark');
 }
@@ -946,12 +1094,6 @@ window.addEventListener('storage', function(e) {
     if (e.key === 'portal_theme') applyTheme(e.newValue || 'light');
 });
 
-// ─────────────────────────────────
-//  QUOTES PRODUKTIVITAS
-//  - Index awal  : berdasarkan hari-dalam-tahun (konsisten seharian)
-//  - Auto-rotate : berganti setiap 8 detik
-//  - Dot nav     : klik untuk loncat ke quote tertentu
-// ─────────────────────────────────
 const QUOTES = [
     "Selesaikan satu hal dengan baik, lalu lanjut ke berikutnya.",
     "Energimu terbatas, gunakan untuk hal yang benar-benar penting.",
@@ -969,7 +1111,7 @@ const QUOTES = [
     "Progres nyata dimulai dari komitmen, bukan motivasi semata.",
 ];
 
-const DOT_COUNT = 5; // jumlah dot yang ditampilkan
+const DOT_COUNT = 5;
 
 function getDayOfYear() {
     const now = new Date();
@@ -981,16 +1123,10 @@ let currentIdx = getDayOfYear() % QUOTES.length;
 let rotateTimer = null;
 
 function renderQuote(idx, animate) {
-    const el     = document.getElementById('quoteText');
-    const numEl  = document.getElementById('quoteNum');
+    const el    = document.getElementById('quoteText');
+    const numEl = document.getElementById('quoteNum');
     if (!el) return;
-
-    if (animate) {
-        el.style.animation = 'none';
-        void el.offsetHeight;   // force reflow
-        el.style.animation = '';
-    }
-
+    if (animate) { el.style.animation = 'none'; void el.offsetHeight; el.style.animation = ''; }
     el.textContent = '\u201C' + QUOTES[idx] + '\u201D';
     if (numEl) numEl.textContent = (idx + 1) + ' / ' + QUOTES.length;
     renderDots(idx);
@@ -1003,47 +1139,52 @@ function renderDots(activeIdx) {
     for (let i = 0; i < DOT_COUNT; i++) {
         const d = document.createElement('div');
         d.className = 'quote-dot' + (i === activeIdx % DOT_COUNT ? ' active' : '');
-        // klik dot → loncat ke quote
-        d.addEventListener('click', () => {
-            const target = Math.floor(activeIdx / DOT_COUNT) * DOT_COUNT + i;
-            jumpToQuote(target % QUOTES.length);
-        });
+        d.addEventListener('click', () => jumpToQuote((Math.floor(activeIdx / DOT_COUNT) * DOT_COUNT + i) % QUOTES.length));
         container.appendChild(d);
     }
 }
 
-function jumpToQuote(idx) {
-    currentIdx = idx;
-    renderQuote(currentIdx, true);
-    resetRotation();
-}
+function jumpToQuote(idx) { currentIdx = idx; renderQuote(currentIdx, true); resetRotation(); }
 
 function resetRotation() {
     clearInterval(rotateTimer);
-    rotateTimer = setInterval(() => {
-        currentIdx = (currentIdx + 1) % QUOTES.length;
-        renderQuote(currentIdx, true);
-    }, 8000);
+    rotateTimer = setInterval(() => { currentIdx = (currentIdx + 1) % QUOTES.length; renderQuote(currentIdx, true); }, 8000);
 }
 
-// ─────────────────────────────────
-//  INIT
-// ─────────────────────────────────
+function isMobile() { return window.innerWidth <= 768; }
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Quote
     renderQuote(currentIdx, false);
     resetRotation();
-
-    // Total apps counter
     const cards = document.querySelectorAll('.app-card-wrap');
     animateNumber('totalApps', cards.length);
-
     const countEl = document.getElementById('appCount');
     if (countEl) countEl.textContent = `Menampilkan ${cards.length} aplikasi`;
 
-    // Terapkan view tersimpan
-    const savedView = localStorage.getItem('portal_view') || 'grid';
-    if (savedView === 'list') setView('list', true);
+    if (isMobile()) {
+        wrapMobileCardContent();
+    } else {
+        const savedView = localStorage.getItem('portal_view') || 'grid';
+        if (savedView === 'list') setView('list', true);
+    }
+});
+
+function wrapMobileCardContent() {
+    document.querySelectorAll('.app-card').forEach(card => {
+        if (card.querySelector('.app-card-info-mobile-wrap')) return;
+        const name = card.querySelector('.app-card-name');
+        const desc = card.querySelector('.app-card-desc');
+        if (!name || !desc) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'app-card-info-mobile-wrap';
+        card.insertBefore(wrap, name);
+        wrap.appendChild(name);
+        wrap.appendChild(desc);
+    });
+}
+
+window.addEventListener('resize', () => {
+    if (isMobile()) { wrapMobileCardContent(); }
 });
 
 function animateNumber(id, target) {
@@ -1058,14 +1199,11 @@ function animateNumber(id, target) {
     }, 40);
 }
 
-// ─────────────────────────────────
-//  OPEN APP
-// ─────────────────────────────────
 function openApp(encoded, event) {
     if (event) {
         event.stopPropagation();
-        const btn = event.currentTarget;
-        const r   = document.createElement('span');
+        const btn  = event.currentTarget;
+        const r    = document.createElement('span');
         r.className = 'ripple-effect';
         const rect = btn.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
@@ -1077,9 +1215,6 @@ function openApp(encoded, event) {
     catch(e) { console.error('URL tidak valid'); }
 }
 
-// ─────────────────────────────────
-//  SEARCH
-// ─────────────────────────────────
 const searchInput = document.getElementById('searchApps');
 const emptyState  = document.getElementById('emptyState');
 const appCountEl  = document.getElementById('appCount');
@@ -1089,13 +1224,11 @@ if (searchInput) {
         const q = this.value.toLowerCase().trim();
         const allCards = document.querySelectorAll('.app-card-wrap');
         let visible = 0;
-
         allCards.forEach(card => {
             const match = (card.getAttribute('data-name') || '').includes(q);
             card.style.display = match ? '' : 'none';
             if (match) visible++;
         });
-
         if (emptyState) emptyState.classList.toggle('show', visible === 0 && q !== '');
         if (appCountEl) appCountEl.textContent = q
             ? `Menampilkan ${visible} dari ${allCards.length} aplikasi`
@@ -1103,10 +1236,8 @@ if (searchInput) {
     });
 }
 
-// ─────────────────────────────────
-//  VIEW TOGGLE
-// ─────────────────────────────────
 function setView(v, silent) {
+    if (isMobile()) return;
     if (!silent) localStorage.setItem('portal_view', v);
     const grid = document.getElementById('appsGrid');
     const btnG = document.getElementById('btnGrid');
@@ -1129,8 +1260,8 @@ function setView(v, silent) {
                 }
             }
         });
-        btnG.classList.remove('active');
-        btnL.classList.add('active');
+        if (btnG) btnG.classList.remove('active');
+        if (btnL) btnL.classList.add('active');
     } else {
         grid.classList.remove('list-view');
         grid.querySelectorAll('.app-card-info-wrap').forEach(wrap => {
@@ -1138,14 +1269,11 @@ function setView(v, silent) {
             while (wrap.firstChild) parent.insertBefore(wrap.firstChild, wrap);
             parent.removeChild(wrap);
         });
-        btnG.classList.add('active');
-        btnL.classList.remove('active');
+        if (btnG) btnG.classList.add('active');
+        if (btnL) btnL.classList.remove('active');
     }
 }
 
-// ─────────────────────────────────
-//  LOGOUT MODAL
-// ─────────────────────────────────
 function showLogoutModal()  { document.getElementById('logoutModal').classList.add('show'); }
 function closeLogoutModal() { document.getElementById('logoutModal').classList.remove('show'); }
 function confirmLogout()    { window.location.href = '<?= base_url('auth/logout') ?>'; }
@@ -1156,9 +1284,6 @@ document.getElementById('logoutModal')?.addEventListener('click', function(e) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogoutModal(); });
 
-// ─────────────────────────────────
-//  NAVBAR SCROLL
-// ─────────────────────────────────
 window.addEventListener('scroll', () => {
     const nav = document.getElementById('mainNavbar');
     if (!nav) return;
