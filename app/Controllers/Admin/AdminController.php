@@ -29,7 +29,15 @@ class AdminController extends BaseController
         return view('admin/dashboard', $data);
     }
 
+    // Tampilkan halaman Info Sistem
+    public function info()
+    {
+        $data = [
+            'title' => 'Informasi Sistem'
+        ];
 
+        return view('admin/info', $data);
+    }
 
     // Tampilkan halaman profile
 public function profile()

@@ -35,6 +35,9 @@ $routes->group('user', ['filter' => 'auth:user'], function ($routes) {
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard',                   'Admin\AdminController::index');
 
+    // Info System & About
+    $routes->get('info',                        'Admin\AdminController::info');
+
     // Profile Admin
     $routes->get('profile',                     'Admin\AdminController::profile');
     $routes->post('profile/update',             'Admin\AdminController::updateProfile');

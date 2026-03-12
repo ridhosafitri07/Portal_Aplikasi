@@ -1,3 +1,14 @@
+<!-- Mobile Toggle Header -->
+<div class="mobile-header d-lg-none">
+    <div class="h5 mb-0 fw-bold"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Portal</div>
+    <button class="btn btn-outline-light btn-sm px-2 py-1" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+    </button>
+</div>
+
+<!-- Sidebar Overlay -->
+<div id="sidebar-overlay"></div>
+
 <!-- Sidebar -->
 <div id="sidebar">
 
@@ -47,6 +58,9 @@
     <!-- Bagian Bawah (Account) -->
     <div class="account-section mt-auto">
         <div class="menu-label">Pengaturan Akun</div>
+        <a href="<?= base_url('admin/info') ?>" class="<?= (url_is('admin/info*')) ? 'active' : '' ?>">
+            <i class="bi bi-info-circle"></i> Info Sistem
+        </a>
         <a href="<?= base_url('admin/profile') ?>" class="<?= (url_is('admin/profile*')) ? 'active' : '' ?>">
             <i class="bi bi-person-bounding-box"></i> Profile Saya
         </a>

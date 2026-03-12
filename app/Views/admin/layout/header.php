@@ -10,10 +10,12 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
+
+
     <style>
         /* Sidebar fix di kiri */
         #sidebar {
-            width: 250px;
+            width: 260px;
             height: 100vh;
             background-color: #2c3e50;
             position: fixed;
@@ -21,13 +23,78 @@
             left: 0;
             display: flex;
             flex-direction: column;
-            z-index: 1000;
+            z-index: 1050;
+            transition: all 0.3s ease;
         }
 
         /* Konten utama geser ke kanan */
         #content {
-            margin-left: 250px !important;
+            margin-left: 260px !important;
             padding: 20px;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        /* Overlay untuk mobile saat sidebar terbuka */
+        #sidebar-overlay {
+            display: none;
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            top: 0;
+            left: 0;
+        }
+
+        /* Navbar untuk mobile toggle */
+        .mobile-header {
+            display: none;
+            background-color: #2c3e50;
+            padding: 10px 15px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 991.98px) {
+            #sidebar {
+                left: -260px;
+            }
+            
+            #sidebar.show {
+                left: 0;
+            }
+
+            #content {
+                margin-left: 0 !important;
+                padding-top: 10px;
+            }
+
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            #sidebar-overlay.show {
+                display: block;
+            }
+        }
+
+        /* Custom scrollbar untuk sidebar */
+        .flex-grow-1.overflow-y-auto::-webkit-scrollbar {
+            width: 5px;
+        }
+        .flex-grow-1.overflow-y-auto::-webkit-scrollbar-track {
+            background: #2c3e50;
+        }
+        .flex-grow-1.overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #34495e;
+            border-radius: 10px;
         }
 
         /* Warna teks menu sidebar */
@@ -37,19 +104,22 @@
             display: block;
             padding: 12px 20px;
             transition: 0.2s;
+            border-left: 4px solid transparent;
         }
 
         /* Hover menu sidebar */
         #sidebar a:hover {
             background-color: #3d5166;
             color: white;
+            border-left: 4px solid #3d5166;
         }
 
         /* Menu yang sedang aktif */
         #sidebar a.active {
-            background-color: #1abc9c;
-            color: white;
-            border-left: 4px solid #16a085;
+            background-color: rgba(26, 188, 156, 0.15);
+            color: #1abc9c;
+            border-left: 4px solid #1abc9c;
+            font-weight: 600;
         }
 
         /* Judul portal di atas sidebar */

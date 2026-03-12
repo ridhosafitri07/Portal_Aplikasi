@@ -46,31 +46,75 @@
         </div>
     </div>
 
-    <!-- Notifications -->
+    <!-- Toast Notifikasi -->
     <?php if (session()->getFlashdata('success')) : ?>
-        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-                <div><?= session()->getFlashdata('success') ?></div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+            <div id="liveToast" class="toast show border-0 shadow-lg" style="min-width: 300px; border-radius: 12px; overflow: hidden;">
+                <div class="toast-body d-flex align-items-center text-white fw-semibold" style="background-color: #1e7e34; padding: 14px 16px;">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                    <span class="flex-grow-1"><?= session()->getFlashdata('success') ?></span>
+                    <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="toast"></button>
+                </div>
+                <div style="height: 4px; background-color: rgba(255,255,255,0.2);">
+                    <div id="toastProgress" style="height: 100%; width: 100%; background-color: #fff;"></div>
+                </div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+            
+        <script>
+            const duration = 3000;
+            const progressBar = document.getElementById('toastProgress');
+            const toastEl = document.getElementById('liveToast');
+
+            setTimeout(() => {
+                progressBar.style.transition = `width ${duration}ms linear`;
+                progressBar.style.width = '0%';
+            }, 50);
+
+            setTimeout(() => {
+                toastEl.style.transition = 'opacity 0.4s ease';
+                toastEl.style.opacity = '0';
+                setTimeout(() => toastEl.style.display = 'none', 400);
+            }, duration);
+        </script>
     <?php endif; ?>
 
     <?php if (session()->getFlashdata('errors')) : ?>
-        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
-                <div>
-                    <ul class="mb-0 small ps-3">
-                        <?php foreach (session()->getFlashdata('errors') as $error) : ?>
-                            <li><?= $error ?></li>
-                        <?php endforeach; ?>
-                    </ul>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+            <div id="errorToast" class="toast show border-0 shadow-lg" style="min-width: 300px; border-radius: 12px; overflow: hidden;">
+                <div class="toast-body d-flex align-items-center text-white fw-semibold" style="background-color: #dc3545; padding: 14px 16px;">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                    <div class="flex-grow-1">
+                        <ul class="mb-0 small ps-3">
+                            <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                                <li><?= $error ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="toast"></button>
+                </div>
+                <div style="height: 4px; background-color: rgba(255,255,255,0.2);">
+                    <div id="errorToastProgress" style="height: 100%; width: 100%; background-color: #fff;"></div>
                 </div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+            
+        <script>
+            const errDuration = 5000;
+            const errProgressBar = document.getElementById('errorToastProgress');
+            const errToastEl = document.getElementById('errorToast');
+
+            setTimeout(() => {
+                errProgressBar.style.transition = `width ${errDuration}ms linear`;
+                errProgressBar.style.width = '0%';
+            }, 50);
+
+            setTimeout(() => {
+                errToastEl.style.transition = 'opacity 0.4s ease';
+                errToastEl.style.opacity = '0';
+                setTimeout(() => errToastEl.style.display = 'none', 400);
+            }, errDuration);
+        </script>
     <?php endif; ?>
 
 
