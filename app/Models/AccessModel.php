@@ -11,7 +11,7 @@ class AccessModel extends Model
 
     protected $allowedFields = [
         'id_group',
-        'id_app'
+        'id_apps'
     ];
 
     protected $useTimestamps = false;
