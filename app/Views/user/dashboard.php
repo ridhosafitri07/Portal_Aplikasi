@@ -6,6 +6,8 @@
     <title>AppPortal - Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="manifest" href="<?= base_url('manifest.json') ?>">
+    <meta name="theme-color" content="#60a5fa">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -160,7 +162,7 @@
                 var(--bg-body);
         }
 
-        /* NAVBAR */
+        /* ─── NAVBAR ─────────────────────────────────────── */
         .navbar {
             position: fixed; top: 0; left: 0; right: 0;
             height: var(--navbar-height);
@@ -228,7 +230,55 @@
             background: rgba(59,130,246,0.15);
         }
 
-        /* BOTTOM NAV */
+        /* Nav-right: install button area */
+        .nav-right {
+            position: absolute; right: 36px;
+            display: flex; align-items: center;
+        }
+
+        /* ─── INSTALL BUTTON (Desktop Navbar) ────────────── */
+        #installApp {
+            display: none; /* shown via JS when PWA prompt fires */
+            align-items: center; gap: 7px;
+            padding: 9px 18px;
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+            color: white;
+            border: none; border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .875rem; font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+            transition: background .2s, box-shadow .2s, transform .2s, opacity .3s;
+            white-space: nowrap;
+            animation: installFadeIn .4s ease forwards;
+        }
+
+        #installApp:hover {
+            background: linear-gradient(135deg, var(--blue-700), var(--blue-600));
+            box-shadow: 0 6px 20px rgba(37,99,235,0.5);
+            transform: translateY(-2px);
+        }
+
+        #installApp:active { transform: translateY(0); }
+
+        #installApp i { font-size: .9rem; }
+
+        @keyframes installFadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        body.dark-mode #installApp {
+            background: linear-gradient(135deg, var(--blue-500), var(--blue-400));
+            color: #0a1628;
+            box-shadow: 0 4px 14px rgba(96,165,250,0.35);
+        }
+
+        body.dark-mode #installApp:hover {
+            box-shadow: 0 6px 20px rgba(96,165,250,0.5);
+        }
+
+        /* ─── BOTTOM NAV ──────────────────────────────────── */
         .bottom-nav {
             display: none;
             position: fixed; bottom: 0; left: 0; right: 0;
@@ -273,7 +323,37 @@
             background: rgba(59,130,246,0.15);
         }
 
-        /* MAIN */
+        /* ─── Install item in bottom nav ─────────────────── */
+        #installAppMobile {
+            display: none; /* shown via JS */
+            flex-direction: column;
+            align-items: center; gap: 3px;
+            color: white;
+            font-size: .68rem; font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 12px;
+            border: none; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+            box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+            min-width: 64px;
+            transition: all .2s;
+            animation: installFadeIn .4s ease forwards;
+        }
+
+        #installAppMobile i { font-size: 1.25rem; }
+
+        #installAppMobile:active {
+            transform: scale(0.94);
+        }
+
+        body.dark-mode #installAppMobile {
+            background: linear-gradient(135deg, var(--blue-500), var(--blue-400));
+            color: #0a1628;
+            box-shadow: 0 4px 14px rgba(96,165,250,0.35);
+        }
+
+        /* ─── MAIN ────────────────────────────────────────── */
         .main {
             padding-top: calc(var(--navbar-height) + 32px);
             padding-bottom: 60px;
@@ -283,7 +363,7 @@
             padding-right: 36px;
         }
 
-        /* HERO */
+        /* ─── HERO ────────────────────────────────────────── */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 50%, #1e4db7 100%);
             border-radius: 28px;
@@ -451,7 +531,7 @@
             color: rgba(255,255,255,0.65);
         }
 
-        /* TOOLBAR */
+        /* ─── TOOLBAR ─────────────────────────────────────── */
         .toolbar {
             display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 28px; gap: 16px; flex-wrap: wrap;
@@ -520,7 +600,7 @@
         .view-toggle button.active,
         .view-toggle button:hover { background: var(--blue-600); color: white; }
 
-        /* APP CARDS */
+        /* ─── APP CARDS ───────────────────────────────────── */
         .apps-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -750,12 +830,12 @@
         ::-webkit-scrollbar-thumb { background: var(--blue-300); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--blue-400); }
 
-        /* RESPONSIVE */
-
+        /* ─── RESPONSIVE ──────────────────────────────────── */
         @media (max-width: 900px) {
             .main { padding-left: 24px; padding-right: 24px; }
             .navbar { padding: 0 24px; }
             .nav-brand { left: 24px; }
+            .nav-right { right: 24px; }
             .hero { padding: 28px 28px; }
             .hero h1 { font-size: 1.6rem; }
             .hero-quote-box { min-width: 220px; max-width: 260px; padding: 18px 20px; }
@@ -765,6 +845,7 @@
             :root { --navbar-height: 60px; }
 
             .nav-links { display: none; }
+            .nav-right  { display: none; } /* install button moves to bottom nav on mobile */
 
             .navbar { padding: 0 16px; }
             .nav-brand { left: 16px; }
@@ -906,21 +987,6 @@
 </head>
 <body>
 
-<!-- LOGOUT MODAL -->
-<div class="modal-overlay" id="logoutModal">
-    <div class="modal-box">
-        <div class="modal-icon"><i class="bi bi-power"></i></div>
-        <h3>Keluar dari Akun?</h3>
-        <p>Sesi kamu akan berakhir dan kamu perlu login kembali untuk mengakses portal.</p>
-        <div class="modal-btns">
-            <button class="btn-cancel" onclick="closeLogoutModal()">Batal</button>
-            <button class="btn-confirm" onclick="confirmLogout()">
-                <i class="bi bi-box-arrow-right"></i> Ya, Keluar
-            </button>
-        </div>
-    </div>
-</div>
-
 <!-- NAVBAR -->
 <nav class="navbar" id="mainNavbar">
     <a href="<?= base_url('user/dashboard') ?>" class="nav-brand">
@@ -942,6 +1008,14 @@
             <span>Info</span>
         </a>
     </div>
+
+    <!-- Install button desktop (kanan navbar) -->
+    <div class="nav-right">
+        <button id="installApp">
+            <i class="bi bi-download"></i>
+            Install App
+        </button>
+    </div>
 </nav>
 
 <!-- BOTTOM NAV -->
@@ -959,6 +1033,11 @@
             <i class="bi bi-info-circle-fill"></i>
             <span>Info</span>
         </a>
+        <!-- Install button mobile (bottom nav) -->
+        <button id="installAppMobile">
+            <i class="bi bi-download"></i>
+            <span>Install</span>
+        </button>
     </div>
 </nav>
 
@@ -1291,6 +1370,61 @@ window.addEventListener('scroll', () => {
         ? '0 1px 40px rgba(37,99,235,0.14)'
         : '0 1px 32px rgba(37,99,235,0.08)';
 });
+</script>
+
+<!-- Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("<?= base_url('service-worker.js') ?>")
+        .then(function() {
+            console.log("Service Worker Registered");
+        })
+        .catch(function(error) {
+            console.log("Service Worker Failed", error);
+        });
+    }
+</script>
+
+<!-- PWA Install Prompt -->
+<script>
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Tampilkan tombol desktop (navbar)
+        const btnDesktop = document.getElementById('installApp');
+        btnDesktop.style.display = 'flex';
+
+        // Tampilkan tombol mobile (bottom nav)
+        const btnMobile = document.getElementById('installAppMobile');
+        btnMobile.style.display = 'flex';
+    });
+
+    async function triggerInstall() {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            console.log('User installed the app');
+            // Sembunyikan kedua tombol setelah install
+            document.getElementById('installApp').style.display = 'none';
+            document.getElementById('installAppMobile').style.display = 'none';
+        }
+        deferredPrompt = null;
+    }
+
+    document.getElementById('installApp').addEventListener('click', triggerInstall);
+    document.getElementById('installAppMobile').addEventListener('click', triggerInstall);
+
+    // Sembunyikan tombol kalau sudah diinstall
+    window.addEventListener('appinstalled', () => {
+        document.getElementById('installApp').style.display = 'none';
+        document.getElementById('installAppMobile').style.display = 'none';
+        deferredPrompt = null;
+        console.log('PWA was installed');
+    });
 </script>
 </body>
 </html>
