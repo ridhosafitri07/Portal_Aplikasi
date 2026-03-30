@@ -1381,7 +1381,7 @@ window.addEventListener('scroll', () => {
         })
         .catch(function(error) {
             console.log("Service Worker Failed", error);
-        });
+        }); 
     }
 </script>
 
@@ -1392,7 +1392,7 @@ window.addEventListener('scroll', () => {
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-
+ 
         // Tampilkan tombol desktop (navbar)
         const btnDesktop = document.getElementById('installApp');
         btnDesktop.style.display = 'flex';
